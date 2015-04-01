@@ -1,0 +1,157 @@
+<html>
+<script type="text/javascript">
+function allChecked() {
+var count=0;
+for (var i = 0; i< 4; i++) {
+	if(document.myform["chapter1[]"][i].checked){	
+		count++;
+	}
+}
+if (count == 4) {
+	
+	var elem = document.getElementById("chapter1t");
+	elem.value = "Completed";
+}
+
+}
+
+function AddHour(tbox){
+	var elem = document.getElementById("chapter1total");
+	var elem2 = document.getElementById(tbox);
+	elem2.value++;
+	elem.value++;
+}
+</script>
+<body>
+<form name="myform" action="">
+	Semester: <select>
+  <option value="volvo">1</option>
+  <option value="saab">2</option>
+  <option value="mercedes">3</option>
+  <option value="audi">4</option>
+  <option value="audi">5</option>
+</select> 
+ Subject: <select>
+  <option value="volvo">ADA</option>
+  <option value="saab">AJP</option>
+  <option value="mercedes">WEB</option>
+  <option value="audi">CNS</option>
+  <option value="audi">DWM</option>
+</select> 
+ Section: <select>
+  <option value="volvo">A</option>
+  <option value="saab">B</option>
+</select> 
+
+<br><br><br>
+ <table border=1>
+  <tr>
+    <th>Subject</th>
+    <th>Estimated Hours</th>
+    <th>Completed Hours</th>
+    <th>Add Hour</th>
+    <th>Completed</th>
+    
+  </tr>
+  <tr>
+    <th>Chapter 1</td>
+    <td>8</td>
+    <td><input type="text" id="chapter1total" name="chapter1total" value="2" size="1"> </td>
+    <td></td>
+    <td><input type="text" id="chapter1t" name="chapter1t" value="NO" size="4"></td>
+  </tr>
+    <tr>
+    <td>sub1</td>
+    <td>3</td>
+    <td><input type="text" id="chapter11" name="chapter11" value="1" size="1"></td>
+    <td><input type="button" value="Add 1"  onClick="AddHour('chapter11')" /></td>
+    <td><input type="checkbox" name="chapter1[]"  onchange="allChecked() " size="1"></td>
+  </tr>
+      <tr>
+    <td>sub2</td>
+    <td>3</td>
+   <td><input type="text" id="chapter12" name="chapter12" value="1" size="1"></td>
+    <td><input type="button" value="Add 1"  onClick="AddHour('chapter12')" /></td>
+    <td><input type="checkbox"  name="chapter1[]" onchange="allChecked()" size="1"></td>
+  </tr>
+      <tr>
+    <td>sub3</td>
+    <td>1</td>
+    <td><input type="text" id="chapter13" name="chapter13" value="0" size="1"></td>
+    <td><input type="button" value="Add 1"  onClick="AddHour('chapter13')" /></td>
+    <td><input type="checkbox" name="chapter1[]" onchange="allChecked()" size="1"></td>
+  </tr>
+      <tr>
+    <td>sub4</td>
+    <td>1</td>
+    <td><input type="text" id="chapter14" name="chapter14" value="0" size="1"></td>
+    <td><input type="button" value="Add 1"  onClick="AddHour('chapter14')"   /></td>
+    <td><input type="checkbox" name="chapter1[]" onchange="allChecked()" size="1"></td>
+  </tr>
+  <tr>
+    <th>Chapter 2</td>
+    <td>9</td>
+    <td>0</td>
+    <td></td>
+    <td>NO</td>
+  </tr>
+    <tr>
+    <td>sub1</td>
+    <td>6</td>
+    <td>0</td>
+    <td><input type="button" value="Add 1" /></td>
+    <td><input type="checkbox" ></td>
+  </tr>
+      <tr>
+    <td>sub2</td>
+    <td>2</td>
+    <td>0</td>
+    <td><input type="button" value="Add 1" /></td>
+    <td><input type="checkbox" ></td>
+  </tr>
+      <tr>
+    <td>sub3</td>
+    <td>1</td>
+    <td>0</td>
+    <td><input type="button" value="Add 1" /></td>
+    <td><input type="checkbox" ></td>
+  </tr>
+<tr>
+    <th>Chapter 1</td>
+    <td>8</td>
+    <td>2</td>
+    <td></td>
+    <td>NO</td>
+  </tr>
+    <tr>
+    <td>sub1</td>
+    <td>3</td>
+    <td>1</td>
+    <td><input type="button" value="Add 1" /></td>
+    <td><input type="checkbox" ></td>
+  </tr>
+      <tr>
+    <td>sub2</td>
+    <td>3</td>
+    <td>1</td>
+    <td><input type="button" value="Add 1" /></td>
+    <td><input type="checkbox" ></td>
+  </tr>
+      <tr>
+    <td>sub3</td>
+    <td>1</td>
+    <td>0</td>
+    <td><input type="button" value="Add 1" /></td>
+    <td><input type="checkbox" ></td>
+  </tr>
+      <tr>
+    <td>sub4</td>
+    <td>1</td>
+    <td>0</td>
+    <td><input type="button" value="Add 1" /></td>
+    <td><input type="checkbox" ></td>
+  </tr>
+</table> 
+</form>
+</body>
+</html>
