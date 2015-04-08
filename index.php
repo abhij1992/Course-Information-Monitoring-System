@@ -1,27 +1,38 @@
 <?php
 session_start();
+
+if(isset($_SESSION['unames'])) //every page checks if logged in ,and if not then go to login page , we are already in login page so no else condition
+{
+  if($_SESSION['isAdmin']==1) // if admin, then go to admin page
+   {
+     header('Location: admin.php');
+   }   
+   if($_SESSION['isAdmin']==0) //if faculty go to faculty page
+   {
+     header('Location: faculty.php'); 
+   } 
+}
+
 $pluname="Enter faculty ID";
 $plpassword="Enter Password";
 if(isset($_POST['logs'])){
-	include 'connection.php';
-	//server details stored in connection.php
-	$conn = new mysqli($servername, $username, $password, $dbname);
-	// Check connection
-	if ($conn->connect_error) {
+	include 'connection.php'; 
+	//conn object is initialized in connection.php
+	if ($conn->connect_error) { //Check connection
 		die("Connection failed: " . $conn->connect_error);
 	}
 	$pluname=$_POST['uname'];
 	$plpassword="";
-	$sql = "SELECT pword,isAdmin FROM faculty where uname='".$_POST['uname']."' ";
+	$sql = "SELECT name,pword,isAdmin FROM faculty where uname='".$_POST['uname']."' ";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 		
 		$row = $result->fetch_assoc(); 
 		//echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-		$tosetSession="".$_POST['uname']."";
-		$_SESSION["unames"] = $tosetSession;
 		if($_POST['pword'] == $row["pword"])
 		{
+		    $_SESSION["unames"] = $_POST['uname'];
+			$_SESSION["name"]=$row["name"];
 			if($row["isAdmin"]==1)
 			{
 				$_SESSION["isAdmin"] = 1;
