@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php
 	session_start();
@@ -295,3 +296,21 @@ Panelo - Free Admin Template by <a href="htpp://csstemplatesmarket.com" target="
     	
 </body>
 </html>
+=======
+<?php
+session_start();
+if(isset($_SESSION['unames']))
+{
+  if($_SESSION['isAdmin']!=0)
+   {
+     header('Location: index.php');
+   }   
+}
+else header('Location: index.php');
+?>
+
+
+FACULTY <a href="logout.php" >Logout</a>
+
+<h2>Welcome <?php echo $_SESSION['name']; ?></h2>
+>>>>>>> origin/master
