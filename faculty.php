@@ -1,9 +1,33 @@
-<<<<<<< HEAD
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php
 	session_start();
 	if(!isset($_SESSION["unames"]))
 		header("location:index.php");
+	include 'connection.php'; 
+	//fetching main information
+	if ($conn->connect_error) { //Check connection
+		die("Connection failed: " . $conn->connect_error);
+	}
+	$sql = "SELECT id,name FROM faculty where uname='".$_SESSION["unames"]."' ";
+	$result = $conn->query($sql);
+	$row = $result->fetch_assoc();
+	$faculty_id=$row["id"];
+	$faculty_name=$row["name"];
+	$faculty_code=$_SESSION["unames"];
+	$sql = "SELECT * FROM subject where faculty_id='".$faculty_id."' ";
+	$result = $conn->query($sql);
+	$no_of_subjects=0;
+	while($row = $result->fetch_assoc())
+	{
+		$subject_code[$no_of_subjects]=$row["subject_code"];
+		$subject_id[$no_of_subjects]=$row["id"];
+		$subject_name[$no_of_subjects]=$row["subject_name"];
+		$subject_section[$no_of_subjects]=$row["section"];
+		$no_of_subjects++;
+	}	
+		
+	
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,23 +57,19 @@ $(".trigger").click(function(){
 	<div class="header">
     <div class="title"><a href="#">Course Information Monitoring System</a></div>
     
-    <div class="header_right">Welcome Admin, <a href="#" class="settings">Settings</a> <a href="#" class="logout">Logout</a> </div>
+    <div class="header_right">Welcome <?php echo $faculty_name."(".$faculty_code.")"; ?><a href="logout.php" class="logout">Logout</a> </div>
     
     <div class="menu">
     <ul>
     <li><a href="#" class="selected">Main page</a></li>
-    <li><a href="#">Settings</a></li>
-    <li><a href="#">Add a category</a></li>
-    <li><a href="#">Edit categories</a></li>
-    <li><a href="#">Categories</a></li>
-    <li><a href="#">Options</a></li>
-    <li><a href="#">Admin settings</a></li>
-    <li><a href="#">Help</a></li>
+    <li><a href="#">Add Subject</a></li>
+    <li><a href="#">Notification</a></li>
+    <li><a href="#">Overall Progress</a></li>
     </ul>
     </div>
     
     </div>
-    
+    <!--
     <div class="submenu">
     <ul>
     <li><a href="#" class="selected">settings</a></li>
@@ -59,7 +79,7 @@ $(".trigger").click(function(){
     <li><a href="#">templates</a></li>
     </ul>
     </div>          
-                    
+     -->               
     <div class="center_content">  
  
     <div id="right_wrap">
@@ -247,15 +267,15 @@ $(".trigger").click(function(){
                      
                     
     <div class="sidebar" id="sidebar">
-    <h2>Browse categories</h2>
+    <h2>Subjects Taking</h2>
     
         <ul>
-            <li><a href="#" class="selected">Main page</a></li>
-            <li><a href="#">Template settings</a></li>
-            <li><a href="#">Add page</a></li>
-            <li><a href="#">Edit section</a></li>
-            <li><a href="#">Templates</a></li>
-            <li><a href="#">Clients</a></li>
+		<?php
+			for($i=0;$i<$no_of_subjects;$i++)
+			{
+				echo "<li><a href='faculty_subject.php?subject_id=".$subject_id[$i]."'>".$subject_name[$i]." - ".$subject_section[$i]." -(".$subject_code[$i].") </a></li>";
+			}
+		?>
         </ul>
         
     <h2>Page Section</h2>
