@@ -2,8 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php
 	session_start();
-	if(!isset($_SESSION["unames"]))
-		header("location:index.php");
+	//the below code block is required as it controls which user can access the pages,please don't remove it
+	if(isset($_SESSION['unames'])) //every page checks if logged in and ,and if not then go to login page
+    {   
+     if($_SESSION['isAdmin']!=0) //if not faculty go to index page
+     {
+      header('Location: index.php'); 
+     }  
+    }else header('Location: index.php'); 
+		
+
 	include 'connection.php'; 
 	//fetching main information
 	if ($conn->connect_error) { //Check connection

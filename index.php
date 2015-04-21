@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+ //the below code block is required as it controls which user can access the pages,please don't remove it
 if(isset($_SESSION['unames'])) //every page checks if logged in ,and if not then go to login page , we are already in login page so no else condition
 {
   if($_SESSION['isAdmin']==1) // if admin, then go to admin page

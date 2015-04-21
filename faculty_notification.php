@@ -2,8 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php
 	session_start();
-	if(!isset($_SESSION["unames"]))
-		header("location:index.php");
+	//the below code block is required as it controls which user can access the pages,please don't remove it
+	if(isset($_SESSION['unames'])) //every page checks if logged in and ,and if not then go to login page
+    {   
+     if($_SESSION['isAdmin']!=0) //if not faculty go to index page
+     {
+      header('Location: index.php'); 
+     }  
+    }else header('Location: index.php'); 
+	
+	
 	include 'connection.php'; 
 	//fetching main information
 	if ($conn->connect_error) { //Check connection
@@ -24,10 +32,36 @@
 		$subject_id[$no_of_subjects]=$row["id"];
 		$subject_name[$no_of_subjects]=$row["subject_name"];
 		$subject_section[$no_of_subjects]=$row["section"];
+		$subject_code_name_hash[$row["subject_code"]]=$row["subject_name"];
 		$no_of_subjects++;
 	}	
 		
+	//foreach($subject_code_name_hash as $k=>$v) echo " key=".$k." => ".$v; //Displays the Subject_code_name_hash
 	
+    //Code to store only unique subject code from the array subject_code which contains all the subjects taken by this faculty
+    $unique_subject_code=array_unique($subject_code);	
+	
+	
+	//Code to insert the notification if it was submitted by user
+	if(isset($_POST['submit']) && $_POST['submit']=="Post Notification")
+	  { 
+	     if(!empty($_POST['title']) && !empty($_POST['description']) && !empty($_POST['subject_code'])){
+	     //got notification request, process it
+		  $sql="INSERT INTO notification(heading,content,date,subject_code) VALUES('".$_POST['title']."','".$_POST['description']."',CURDATE(),'".$_POST['subject_code']."');";
+		  $result=$conn->query($sql);
+		  if(!$result) {echo "<h2>Error...Unable to post Notification...</h2>";}
+		  }
+	  }
+	
+	//Code to delete the notification requested by user
+	if(isset($_POST['delete']) && $_POST['delete']=="Delete") 
+	  { 
+	    if(!empty($_POST['id'])){
+	    //delete the notification,process it
+		$sql="DELETE FROM notification WHERE id=".$_POST['id'].";";
+		if(!($conn->query($sql))) {echo "<h2>Error...Unable to delete Notification...</h2>";}
+		}
+	  }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -49,6 +83,11 @@ $(".trigger").click(function(){
 	return false;
 });
 });
+
+function submitdata() { 
+    return (confirm("Are You Sure You Want To Proceed?"));
+}
+
 </script>
 </head>
 <body>
@@ -87,29 +126,27 @@ $(".trigger").click(function(){
     <div class="form">
             
             <div class="form_row">
-            <form action="" method="post">
-			<label>Name:</label>
-            <input type="text" class="form_input" name="" />
-            </div>
-             
-            <div class="form_row">
-            <label>Email:</label>
-            <input type="text" class="form_input" name="" />
+            <form action="" method="post" onsubmit=" return submitdata() ">
+			<label>Title:</label>
+            <input type="text" class="form_input" name="title" />
             </div>
             
             <div class="form_row">
             <label>Subject:</label>
-            <select class="form_select" name="">
-            <option>Select one</option>
+            <select class="form_select" name="subject_code">
+			<?php
+			  foreach($unique_subject_code as $s)
+			  { echo "<option>$s</option>"; }
+			?>
             </select>
             </div>
             
              <div class="form_row">
-            <label>Message:</label>
-            <textarea class="form_textarea" name=""></textarea>
+            <label>Description:</label>
+            <textarea class="form_textarea" name="description"></textarea>
             </div>
             <div class="form_row">
-            <input type="submit" class="form_submit" value="Submit" />
+            <input type="submit" class="form_submit" name="submit" value="Post Notification" />
             </div> 
             <div class="clear"></div>
 			</form>
@@ -119,68 +156,57 @@ $(".trigger").click(function(){
 
 	
     <ul id="tabsmenu" class="tabsmenu">
+	     <?php 
+		    $i=1;
+		    foreach($unique_subject_code as $s)
+			{
+			   if($i==1) echo "<li class=\"active\"><a href=\"#tab".$i."\">".$s."</a></li>";
+			   else echo "<li><a href=\"#tab".$i."\">".$s."</a></li>";
+			   echo "\n";
+			   $i++;
+			}
+		 ?>
+		<!--Static Example of tabs
         <li class="active"><a href="#tab1">Form Design Structure</a></li>
         <li><a href="#tab2">Tab two</a></li>
-        <li><a href="#tab3">Tab three</a></li>
-        <li><a href="#tab4">Tab four</a></li>
-		<li><a href="#tab5">subject 5</a></li>
-		<li><a href="#tab6">subject 6</a></li>
+		-->
     </ul>
-    <div id="tab1" class="tabcontent">
-        <h3>Tab one title</h3>
-        
-    </div>
-    <div id="tab2" class="tabcontent">
-        <h3>Tab two title</h3>
-        <ul class="lists">
-        <li>Consectetur adipisicing elit  error sit voluptatem accusantium doloremqu sed</li>
-        <li>Sed do eiusmod tempor incididunt</li>
-        <li>Ut enim ad minim veniam is iste natus error sit</li>
-        <li>Consectetur adipisicing elit sed</li>
-        <li>Sed do eiusmod tempor  error sit voluptatem accus antium dolor emqu incididunt</li>
-        <li>Ut enim ad minim veniam</li>
-        <li>Consectetur adipisi  error sit voluptatem accusantium doloremqu cing elit sed</li>
-        <li>Sed do eiusmod tempor in is iste natus error sit cididunt</li>
-        <li>Ut enim ad minim ve is iste natus error sitniam</li>
-        </ul>
-    </div>
-
-    <div id="tab3" class="tabcontent">
-        <h3>Tab three title</h3>
-        <p>
-    Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
-    
-    <div id="tab4" class="tabcontent">
-        <h3>Tab four title</h3>
-        <p>
-    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
-	<div id="tab5" class="tabcontent">
-        <h3>Tab four title</h3>
-        <p>
-    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
-	<div id="tab6" class="tabcontent">
-        <h3>Tab four title</h3>
-        <p>
-    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
 	
-     
-    
-
+	<?php
+	  $i=1;
+	  foreach($unique_subject_code as $s)
+	  {
+	        echo "<div id=\"tab".$i."\" class=\"tabcontent\"> ";
+			echo "<h2>".$subject_code_name_hash["$s"]."</h2>";
+              $sql="SELECT * FROM notification WHERE subject_code='".$s."';";
+			  $res=$conn->query($sql);
+			  if($res->num_rows > 0)
+			     {
+				    echo "<ul class=\"lists\">";
+				    while($row=$res->fetch_assoc())
+					{
+					  echo "<h3>".$row['heading']."</h3>";
+					  echo "<li>".$row['date']."</li>";
+					  echo "<li>".$row['content']."</li>";
+					  echo "<form method=\"post\" action=\"\"  onsubmit=\" return submitdata()\" >\n<input type=\"hidden\" value=\"".$row['id']."\" name=\"id\"> \n<input class=\"form_submit\" name=\"delete\" type=\"submit\" value=\"Delete\" > \n</form>";
+					  echo "\n";
+					}
+					echo "</ul>";
+				 }
+				 else {echo "<h3>No Notifications for this subject</h3>"; }
+            echo "</div>";			
+		$i++;	
+	  }
+	?>
     
         <div class="toogle_wrap">
             <div class="trigger"><a href="#">Toggle with text</a></div>
 
             <div class="toggle_container">
 			<p>
-        Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+       This Section allows you to Post notifications for each subject...</br></br></br>
+	The notifications are grouped by Subject Code..</br></br></br>
+	Click the Subject Code tab to access or delete the notifications posted so far.
 			</p>
             </div>
         </div>
@@ -205,7 +231,9 @@ $(".trigger").click(function(){
    
     <h2>Text Section</h2> 
     <div class="sidebar_section_text">
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    This Section allows you to Post notifications for each subject...</br></br></br>
+	The notifications are grouped by Subject Code..</br></br></br>
+	Click the Subject Code tab to access or delete the notifications posted so far.
     </div>         
     
     </div>             
