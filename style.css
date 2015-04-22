@@ -131,14 +131,14 @@ background: #dde8f0; text-shadow:1px 1px #F2F8FC;
 }
 #rounded-corner tr.odd td
 {
-padding: 8px;
-background: #f4f9fd;
+padding: 2px;
+background: #99CCFF;
 border-top: 1px solid #fff;
 color: #669;
 }
 #rounded-corner tr.even td
 {
-padding: 8px;
+padding: 2px;
 background: #fcfdfe;
 border-top: 1px solid #fff;
 color: #669;
@@ -153,6 +153,8 @@ background: #dde8f0; font-size:11px;padding:8px 8px 8px 15px;
 {
 background: #dde8f0;
 }
+
+
 
 /* Toggle
 /*------------------------------------------*/

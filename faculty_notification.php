@@ -34,6 +34,7 @@
 		$subject_section[$no_of_subjects]=$row["section"];
 		$subject_code_name_hash[$row["subject_code"]]=$row["subject_name"];
 		$no_of_subjects++;
+		
 	}	
 		
 	//foreach($subject_code_name_hash as $k=>$v) echo " key=".$k." => ".$v; //Displays the Subject_code_name_hash
