@@ -296,7 +296,7 @@ $(".trigger").click(function(){
 		<?php
 			for($i=0;$i<$no_of_subjects;$i++)
 			{
-				echo "<li><a href='faculty_subject.php?subject_id=".$subject_id[$i]."'>".$subject_name[$i]." - ".$subject_section[$i]." -(".$subject_code[$i].") </a></li>";
+				echo "<li><a href='faculty_subject.php?subject_code=".$subject_code[$i]."&section_sel=".$subject_section[$i]."&subject_id=".$subject_id[$i]."' >".$subject_name[$i]." - ".$subject_section[$i]." -(".$subject_code[$i].") </a></li>";
 			}
 		?>
         </ul>

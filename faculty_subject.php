@@ -25,8 +25,36 @@
 		$subject_name[$no_of_subjects]=$row["subject_name"];
 		$subject_section[$no_of_subjects]=$row["section"];
 		$no_of_subjects++;
-	}	
-	$subjectid=$_GET["subject_id"]
+	}
+	$subjectid=$_GET["subject_id"];	
+	$subjectcode1=$_GET["subject_code"];
+	$subjectsec1=$_GET["section_sel"];
+	
+	
+	
+	//TO ADD Hour
+	if(isset($_GET["to_add_id"]))
+	{
+		$course_id_edit=$_GET["to_add_id"];	
+		$sql="select * from progress where progress.course_id=".$course_id_edit." and progress.section='".$subjectsec1."' and progress.subject_code='".$subjectcode1."'";
+		$result = $conn->query($sql);
+		if ($result->num_rows == 0)
+		{	//insert new value
+			$sql="insert into progress values (null,1,0,'".$subjectcode1."','".$subjectsec1."',".$course_id_edit.")";
+			$conn->query($sql);
+		}
+		else{
+			//update with new value
+			$row = $result->fetch_assoc();
+			$new_comp_hrs=$row["completed_hrs"]+1;
+			$sql="update progress set completed_hrs=".$new_comp_hrs." 
+where progress.course_id=".$course_id_edit." 
+and progress.section='".$subjectsec1."' 
+and progress.subject_code='".$subjectcode1."'";
+			$conn->query($sql);
+		}
+	}
+	//END OF TO ADD HOUR
 	
 ?>
 
@@ -102,17 +130,26 @@ $(".trigger").click(function(){
     	<tr>
         	<td colspan="12" align="center"><?php 
 								//fetching total hours
-								$sql = "select sum(estimated_hrs) as total_hrs, sum(completed_hrs) as completed_hr from progress where subject_id ='".$subjectid."' ;";
+								/*$sql = "select sum(estimated_hrs) as total_hrs, sum(completed_hrs) as completed_hr from progress where subject_id ='".$subjectid."' ;";
 								$result = $conn->query($sql);
 								$row = $result->fetch_assoc();
-								echo "Total Estimated Hours = ".$row["total_hrs"]."  Total Completed Hours = ".$row["completed_hr"];
+								echo "Total Estimated Hours = ".$row["total_hrs"]."  Total Completed Hours = ".$row["completed_hr"];*/
 			?></td>
         </tr>
     </tfoot>
     <tbody>
 	<?php
-		//fetching course information data
-	$sql = "SELECT * FROM progress where subject_id='".$subjectid."' ORDER BY chapter_no ASC, unit_no ASC";
+	
+	echo '<form action="" method="GET">';											
+	echo '<input type=hidden name="subject_id" value="'.$subjectid.'">';				//setting hidden data of subject id and section and code
+	echo '<input type=hidden name="subject_code" value="'.$subjectcode1.'">';
+	echo '<input type=hidden name="section_sel" value="'.$subjectsec1.'">';
+																						//fetching course information data
+	$sql="select c.id,c.chap_no,c.unit_no,c.`text`,c.est_hrs,c.is_heading,p.completed_hrs,p.is_complete from course_info c left join subject s on c.sub_code = s.subject_code
+left join progress p on p.course_id=c.id and p.section=s.section
+where s.subject_code='".$subjectcode1."' 
+and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
+
 	$result = $conn->query($sql);
 	
 	while($row = $result->fetch_assoc())
@@ -121,12 +158,16 @@ $(".trigger").click(function(){
 			echo '<tr class="odd">';
 		else
 			echo '<tr class="even">';
-		echo '<td>'.$row["chapter_no"].'</td>';
+		echo '<td>'.$row["chap_no"].'</td>';
 		echo '<td>'.$row["unit_no"].'</td>';
 		echo '<td>'.$row["text"].'</td>';
-		echo '<td>'.$row["estimated_hrs"].'</td>';
+		echo '<td>'.$row["est_hrs"].'</td>';
 		echo '<td>'.$row["completed_hrs"].'</td>';
-		echo '<td><input type=submit value="Add Hour" name="add'.$row["id"].'" </td>';
+		if($row["is_heading"]==1)
+			echo '<td></td>';
+		else
+			echo '<td><button name="to_add_id" value="'.$row["id"].'" type="submit">Add hour</button></td>';
+		//echo '<td><input type=submit value="Add Hour" name="add'.$row["id"].'" </td>';
 		echo '<td><input type="checkbox" name="completed'.$row["id"].'" ';
 		if($row["is_complete"]==1)
 			echo "checked";
@@ -136,7 +177,9 @@ $(".trigger").click(function(){
 		echo '</tr>';
 		
 	}
+	echo '</form>';
 	?>
+	
     	       
     </tbody>
 </table>
@@ -245,10 +288,9 @@ $(".trigger").click(function(){
     
         <ul>
 		<?php
-
 			for($i=0;$i<$no_of_subjects;$i++)
 			{
-				echo "<li><a href='faculty_subject.php?subject_id=".$subject_id[$i]."'>".$subject_name[$i]." - ".$subject_section[$i]." -(".$subject_code[$i].") </a></li>";
+				echo "<li><a href='faculty_subject.php?subject_code=".$subject_code[$i]."&section_sel=".$subject_section[$i]."&subject_id=".$subject_id[$i]."' >".$subject_name[$i]." - ".$subject_section[$i]." -(".$subject_code[$i].") </a></li>";
 			}
 		?>
         </ul>
