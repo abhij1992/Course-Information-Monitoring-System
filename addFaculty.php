@@ -11,12 +11,40 @@ session_start();
      }  
     }else header('Location: index.php'); 
 
+	
+	include 'connection.php'; 
+	//fetching main information
+	if ($conn->connect_error) { //Check connection
+		die("Connection failed: " . $conn->connect_error);
+	}
+	
+	//code to put all faculty and their details in a hash
+	$sql="SELECT  * from faculty WHERE `isAdmin`=0;";
+	$res=$conn->query($sql);
+	if($res->num_rows > 0)
+	{
+	   while($row=$res->fetch_assoc())
+	   {
+	      $faculty[$row["uname"]]=$row["name"];
+	   }
+	}
+	
+	//Code to process addfaculty request
+	if(isset($_POST['addFaculty']))
+	{
+	   if(!empty($_POST['name']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['repeatpassword'])){
+	     $sql="INSERT into faculty(uname,pword,name) VALUES('".$_POST['username']."','".$_POST['password']."','".$_POST['name']."');";
+		 if(!$conn->query($sql)){
+		     echo "<h2>Error...Unable to add Faculty to Database..</h2>";
+		 }else { echo "<script>alert(\"Added Faculty to Database\");</script>";}
+	   }else {echo "<h2>Error...Enter all fields to add faculty</h2>";}
+	}
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Course Information Monitoring System </title>
+<title>Add Faculty - Course Information Monitoring System </title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'>
 <!-- jQuery file -->
@@ -50,7 +78,6 @@ function submitdata() {
     <div class="menu">
     <ul>
     <li><a href="admin.php" class="selected">Main page</a></li>
-    <li><a href="#">Add Subject Content</a></li>
     </ul>
     </div>
     
@@ -59,8 +86,60 @@ function submitdata() {
     <div class="center_content">  
  
     <div id="right_wrap">
-    <div id="right_content">             
-	    <h2>TO-DO:Display Pie chart representing the current completion status of each sem</h2></br></br>
+    <div id="right_content">   
+         <h2>Current Faculty-Users</h2>		
+		 <table id="rounded-corner">
+		 <thead>
+    	  <tr>
+            <th>Username</th><th>Name</th>
+          </tr>
+		  </thead>
+		  <tfoot>
+    	  <tr>
+        	<td colspan="2">All the current faculty in Database</td>
+          </tr>
+          </tfoot>
+		 <tbody>
+		   <?php
+    	      foreach($faculty as $k=>$v)
+			  {
+			   echo "<tr class=\"even\"><td>".$k."</td><td>".$v."</td></tr>";
+			  }
+		   ?>
+         </tbody>		
+		 </table></br></br></br>
+         <h2>Add Faculty</h2>	
+	     <div class="form">
+            
+            <div class="form_row">
+            <form action="" method="post" onsubmit=" return submitdata() ">
+			<label>Name:</label>
+            <input type="text" class="form_input" name="name" />
+            </div>
+			
+			<div class="form_row">
+			<label>Username:</label>
+            <input type="text" class="form_input" name="username" />
+            </div>
+			
+			<div class="form_row">
+			<label>Password:</label>
+            <input type="text" class="form_input" name="password" />
+            </div>	
+			
+			<div class="form_row">
+			<label>Repeat Password:</label>
+            <input type="text" class="form_input" name="repeatpassword" />
+            </div>	
+			
+			 <div class="form_row">
+            <input type="submit" class="form_submit" name="addFaculty" value="Add Faculty" />
+            </div> 
+            <div class="clear"></div>
+			</form>
+			
+		</div>	
+		
         <div class="toogle_wrap">
             <div class="trigger"><a href="#">Toggle with text</a></div>
 
@@ -86,7 +165,8 @@ function submitdata() {
     
     <h2>Text Section</h2> 
     <div class="sidebar_section_text">
-    TO-DO
+    Displays the current faculty list stored in Database.</br>
+	Allows you to add Faculty to the database.
     </div>         
     
     </div>             
