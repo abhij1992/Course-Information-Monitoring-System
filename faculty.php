@@ -70,7 +70,7 @@ $(".trigger").click(function(){
     <div class="menu">
     <ul>
     <li><a href="faculty.php" class="selected">Main page</a></li>
-    <li><a href="#">Add Subject Content</a></li>
+    <li><a href="faculty_add_content.php">Add Subject Content</a></li>
     <li><a href="faculty_notification.php">Notification</a></li>
 
     </ul>

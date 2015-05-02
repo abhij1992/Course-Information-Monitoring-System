@@ -10,8 +10,8 @@
       header('Location: index.php'); 
      }  
     }else header('Location: index.php'); 
-	
-	
+		
+
 	include 'connection.php'; 
 	//fetching main information
 	if ($conn->connect_error) { //Check connection
@@ -32,41 +32,15 @@
 		$subject_id[$no_of_subjects]=$row["id"];
 		$subject_name[$no_of_subjects]=$row["subject_name"];
 		$subject_section[$no_of_subjects]=$row["section"];
-		$subject_code_name_hash[$row["subject_code"]]=$row["subject_name"];
 		$no_of_subjects++;
-		
 	}	
 		
-	//foreach($subject_code_name_hash as $k=>$v) echo " key=".$k." => ".$v; //Displays the Subject_code_name_hash
 	
-    //Code to store only unique subject code from the array subject_code which contains all the subjects taken by this faculty
-    $unique_subject_code=array_unique($subject_code);	
-	
-	
-	//Code to insert the notification if it was submitted by user
-	if(isset($_POST['submit']) && $_POST['submit']=="Post Notification")
-	  { 
-	     if(!empty($_POST['title']) && !empty($_POST['description']) && !empty($_POST['subject_code'])){
-	     //got notification request, process it
-		  $sql="INSERT INTO notification(heading,content,date,subject_code) VALUES('".$_POST['title']."','".$_POST['description']."',CURDATE(),'".$_POST['subject_code']."');";
-		  $result=$conn->query($sql);
-		  if(!$result) {echo "<h2>Error...Unable to post Notification...</h2>";}
-		  }
-	  }
-	
-	//Code to delete the notification requested by user
-	if(isset($_POST['delete']) && $_POST['delete']=="Delete") 
-	  { 
-	    if(!empty($_POST['id'])){
-	    //delete the notification,process it
-		$sql="DELETE FROM notification WHERE id=".$_POST['id'].";";
-		if(!($conn->query($sql))) {echo "<h2>Error...Unable to delete Notification...</h2>";}
-		}
-	  }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Course Information Monitoring System </title>
 <link rel="stylesheet" type="text/css" href="style.css" />
@@ -83,11 +57,39 @@ $(".trigger").click(function(){
 	$(this).toggleClass("active").next().slideToggle("slow");
 	return false;
 });
+
+
 });
 
-function submitdata() { 
-    return (confirm("Are You Sure You Want To Proceed?"));
-}
+$(document).ready(function(){
+    var next = 1;
+    $(".add-more").click(function(e){
+        e.preventDefault();
+        var addto = "#field" + next;
+        var addRemove = "#field" + (next);
+        next = next + 1;
+        var newIn = '<input autocomplete="off" class="form_input" id="field' + next + '" name="field' + next + '" type="text">';
+        var newInput = $(newIn);
+        var removeBtn = ' <button id="remove' + (next - 1) + '" class="remove-me" >-</button></div><div id="field">';
+        var removeButton = $(removeBtn);
+        $(addto).after(newInput);
+        $(addRemove).after(removeButton);
+        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+        $("#count").val(next);  
+        
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+    });
+    
+
+    
+});
+
 
 </script>
 </head>
@@ -104,6 +106,7 @@ function submitdata() {
     <li><a href="faculty.php" class="selected">Main page</a></li>
     <li><a href="faculty_add_content.php">Add Subject Content</a></li>
     <li><a href="faculty_notification.php">Notification</a></li>
+
     </ul>
     </div>
     
@@ -123,91 +126,105 @@ function submitdata() {
  
     <div id="right_wrap">
     <div id="right_content">             
-    <h2>Create new notification</h2> 
-    <div class="form">
-            
-            <div class="form_row">
-            <form action="" method="post" onsubmit=" return submitdata() ">
-			<label>Title:</label>
-            <input type="text" class="form_input" name="title" />
-            </div>
-            
-            <div class="form_row">
-            <label>Subject:</label>
-            <select class="form_select" name="subject_code">
-			<?php
-			  foreach($unique_subject_code as $s)
-			  { echo "<option>$s</option>"; }
-			?>
-            </select>
-            </div>
-            
-             <div class="form_row">
-            <label>Description:</label>
-            <textarea class="form_textarea" name="description"></textarea>
-            </div>
-            <div class="form_row">
-            <input type="submit" class="form_submit" name="submit" value="Post Notification" />
-            </div> 
-            <div class="clear"></div>
-			</form>
-        </div>                
+    <h2>Add Subject</h2> 
+                    
                     
 
-
-	
-    <ul id="tabsmenu" class="tabsmenu">
-	     <?php 
-		    $i=1;
-		    foreach($unique_subject_code as $s)
-			{
-			   if($i==1) echo "<li class=\"active\"><a href=\"#tab".$i."\">".$s."</a></li>";
-			   else echo "<li><a href=\"#tab".$i."\">".$s."</a></li>";
-			   echo "\n";
-			   $i++;
-			}
-		 ?>
-		<!--Static Example of tabs
-        <li class="active"><a href="#tab1">Form Design Structure</a></li>
-        <li><a href="#tab2">Tab two</a></li>
-		-->
-    </ul>
+    <?php
+	if(!isset($_GET["subject_content"])){
+	?>
+	 <div id="tab1" class="tabcontent">
+    
+        <div class="form">
+            <form action="">
+			
+				<div class="form_row">
+				<label>Subject:</label>
+				<select type="text" class="form_input" name="subject_content" >
+					<?php
+						for($i=0;$i<$no_of_subjects;$i++)
+						{
+							echo '<option value="'.$subject_id[$i].'" >'.$subject_name[$i].' - '.$subject_section[$i].'</option>';
+						}
+					?>
+				</select>	
+				</div> 
+				<br><br>
+				<div class="form_row">
+				<label>No of Units :</label>
+				<select type="text" class="form_input" name="unit_nos" >
+					<?php
+						for($i=0;$i<15;$i++)
+						{
+							echo '<option value="'.$i.'" >'.$i.'</option>';
+						}
+					?>
+				</select>	
+				</div> 
+				<br><br>
+				<div class="form_row">
+				<input type="submit" class="form_submit" value="Submit" />
+				
+				</div>
+			</form>
+            <br><br><br><br>
+			
+		</div>
+	</div>
 	
 	<?php
-	  $i=1;
-	  foreach($unique_subject_code as $s)
-	  {
-	        echo "<div id=\"tab".$i."\" class=\"tabcontent\"> ";
-			echo "<h2>".$subject_code_name_hash["$s"]."</h2>";
-              $sql="SELECT * FROM notification WHERE subject_code='".$s."';";
-			  $res=$conn->query($sql);
-			  if($res->num_rows > 0)
-			     {
-				    echo "<ul class=\"lists\">";
-				    while($row=$res->fetch_assoc())
-					{
-					  echo "<h3>".$row['heading']."</h3>";
-					  echo "<li>".$row['date']."</li>";
-					  echo "<li>".$row['content']."</li>";
-					  echo "<form method=\"post\" action=\"\"  onsubmit=\" return submitdata()\" >\n<input type=\"hidden\" value=\"".$row['id']."\" name=\"id\"> \n<input class=\"form_submit\" name=\"delete\" type=\"submit\" value=\"Delete\" > \n</form>";
-					  echo "\n";
-					}
-					echo "</ul>";
-				 }
-				 else {echo "<h3>No Notifications for this subject</h3>"; }
-            echo "</div>";			
-		$i++;	
-	  }
+	}
+	else{
 	?>
+    
+    <div id="tab1" class="tabcontent">
+    
+        <div class="form">
+            
+            <div class="form_row">
+            <label>Chapter Title:</label>
+            <input type="text" class="form_input" name="" />
+            </div>
+            
+			<div class="form_row">
+            <label>Unit Title:</label>
+            </div>
+            <div class="form_row">
+            <div class="container">
+				<div class="row">
+					<input type="hidden" name="count" value="1" />
+					<div class="control-group" id="fields">
+						<div class="controls" id="profs"> 
+							<form class="input-append">
+								<div id="field"><input autocomplete="off" class="form_input" id="field1" name="prof1" type="text" placeholder="Type something" data-items="8"/> <button id="b1" class="add-more" type="button">+</button></div>
+							</form>
+						<br>
+						<small>Press + to add another form field :)</small>
+						</div>
+					</div>
+				</div>
+</div>
+            </div>
+            <div class="form_row">
+            <input type="submit" class="form_submit" value="Submit" />
+            </div> 
+            <div class="clear"></div>
+        </div>
+    </div>
+    <?php
+	}
+	?>
+	
+     
+    
+
     
         <div class="toogle_wrap">
             <div class="trigger"><a href="#">Toggle with text</a></div>
 
             <div class="toggle_container">
 			<p>
-       This Section allows you to Post notifications for each subject...</br></br></br>
-	The notifications are grouped by Subject Code..</br></br></br>
-	Click the Subject Code tab to access or delete the notifications posted so far.
+        Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 			</p>
             </div>
         </div>
@@ -232,9 +249,7 @@ function submitdata() {
    
     <h2>Text Section</h2> 
     <div class="sidebar_section_text">
-    This Section allows you to Post notifications for each subject...</br></br></br>
-	The notifications are grouped by Subject Code..</br></br></br>
-	Click the Subject Code tab to access or delete the notifications posted so far.
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     </div>         
     
     </div>             

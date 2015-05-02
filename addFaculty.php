@@ -124,12 +124,12 @@ function submitdata() {
 			
 			<div class="form_row">
 			<label>Password:</label>
-            <input type="text" class="form_input" name="password" />
+            <input type="password" class="form_input" name="password" />
             </div>	
 			
 			<div class="form_row">
 			<label>Repeat Password:</label>
-            <input type="text" class="form_input" name="repeatpassword" />
+            <input type="password" class="form_input" name="repeatpassword" />
             </div>	
 			
 			 <div class="form_row">
