@@ -5,6 +5,7 @@
 	if(!isset($_SESSION["unames"]))
 		header("location:index.php");
 	include 'connection.php'; 
+	include_once("./completedChart.php"); // includes file which takes subject code and sec as input and displays completed chart
 	//fetching main information
 	if ($conn->connect_error) { //Check connection
 		die("Connection failed: " . $conn->connect_error);
@@ -67,6 +68,8 @@ and progress.subject_code='".$subjectcode1."'";
 <!-- jQuery file -->
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
+<script src="./Chart/Chart.js"></script>
+<?php printPie("completed");?>
 <script type="text/javascript">
 var $ = jQuery.noConflict();
 $(function() {
@@ -100,7 +103,11 @@ $(".trigger").click(function(){
     <div class="center_content">  
  
     <div id="right_wrap">
-    <div id="right_content">        
+    <div id="right_content">      
+    <div align="center">
+	<h2 id="PieTitle"></h2>
+	<canvas id="completed" width="200" height="200"></canvas>
+	</div>	
 <?php
 	for($i=0;$i<$no_of_subjects;$i++)
 	{
@@ -185,88 +192,6 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
 </table>
 
 
-    <ul id="tabsmenu" class="tabsmenu">
-        <li class="active"><a href="#tab1">Form Design Structure</a></li>
-        <li><a href="#tab2">Tab two</a></li>
-        <li><a href="#tab3">Tab three</a></li>
-        <li><a href="#tab4">Tab four</a></li>
-		<li><a href="#tab5">subject 5</a></li>
-		<li><a href="#tab6">subject 6</a></li>
-    </ul>
-    <div id="tab1" class="tabcontent">
-        <h3>Tab one title</h3>
-        <div class="form">
-            
-            <div class="form_row">
-            <label>Name:</label>
-            <input type="text" class="form_input" name="" />
-            </div>
-             
-            <div class="form_row">
-            <label>Email:</label>
-            <input type="text" class="form_input" name="" />
-            </div>
-            
-            <div class="form_row">
-            <label>Subject:</label>
-            <select class="form_select" name="">
-            <option>Select one</option>
-            </select>
-            </div>
-            
-             <div class="form_row">
-            <label>Message:</label>
-            <textarea class="form_textarea" name=""></textarea>
-            </div>
-            <div class="form_row">
-            <input type="submit" class="form_submit" value="Submit" />
-            </div> 
-            <div class="clear"></div>
-        </div>
-    </div>
-    <div id="tab2" class="tabcontent">
-        <h3>Tab two title</h3>
-        <ul class="lists">
-        <li>Consectetur adipisicing elit  error sit voluptatem accusantium doloremqu sed</li>
-        <li>Sed do eiusmod tempor incididunt</li>
-        <li>Ut enim ad minim veniam is iste natus error sit</li>
-        <li>Consectetur adipisicing elit sed</li>
-        <li>Sed do eiusmod tempor  error sit voluptatem accus antium dolor emqu incididunt</li>
-        <li>Ut enim ad minim veniam</li>
-        <li>Consectetur adipisi  error sit voluptatem accusantium doloremqu cing elit sed</li>
-        <li>Sed do eiusmod tempor in is iste natus error sit cididunt</li>
-        <li>Ut enim ad minim ve is iste natus error sitniam</li>
-        </ul>
-    </div>
-
-    <div id="tab3" class="tabcontent">
-        <h3>Tab three title</h3>
-        <p>
-    Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
-    
-    <div id="tab4" class="tabcontent">
-        <h3>Tab four title</h3>
-        <p>
-    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
-	<div id="tab5" class="tabcontent">
-        <h3>Tab four title</h3>
-        <p>
-    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
-	<div id="tab6" class="tabcontent">
-        <h3>Tab four title</h3>
-        <p>
-    Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad <br /><br />Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?
-        </p>
-    </div> 
-	
-     
-    
 
     
         <div class="toogle_wrap">

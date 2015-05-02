@@ -86,6 +86,10 @@ $(".trigger").click(function(){
 });
 
 function submitdata() { 
+     if(notification.title.value=="" || notification.subject_code.value==""|| notification.description.value==""){
+	    alert("Enter required field before posting the notification");
+		return false;
+	 }
     return (confirm("Are You Sure You Want To Proceed?"));
 }
 
@@ -127,7 +131,7 @@ function submitdata() {
     <div class="form">
             
             <div class="form_row">
-            <form action="" method="post" onsubmit=" return submitdata() ">
+            <form action="" method="post" name="notification" onsubmit=" return submitdata() ">
 			<label>Title:</label>
             <input type="text" class="form_input" name="title" />
             </div>
@@ -243,9 +247,9 @@ function submitdata() {
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
-    <div class="footer">
+    <!--<div class="footer">
 Panelo - Free Admin Template by <a href="htpp://csstemplatesmarket.com" target="_blank">CSSTemplatesMarket</a>
-</div>
+</div>-->
 
 </div>
 

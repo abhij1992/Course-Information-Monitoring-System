@@ -62,6 +62,14 @@ $(".trigger").click(function(){
 });
 
 function submitdata() { 
+    if(fac.name.value=="" || fac.username.value=="" || fac.password.value=="" ||fac.repeatpassword.value==""){
+	  alert("Enter required fields before submitting");
+	  return false;
+	}
+	if(fac.password.value!=fac.repeatpassword.value){
+	  alert("Passwords don't match..verify once again and try.");
+	  return false;
+	}
     return (confirm("Are You Sure You Want To Proceed?"));
 }
 
@@ -112,7 +120,7 @@ function submitdata() {
 	     <div class="form">
             
             <div class="form_row">
-            <form action="" method="post" onsubmit=" return submitdata() ">
+            <form action="" method="post" name="fac" onsubmit=" return submitdata() ">
 			<label>Name:</label>
             <input type="text" class="form_input" name="name" />
             </div>
