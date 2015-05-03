@@ -88,6 +88,10 @@ $(".trigger").click(function(){
 });
 
 function submitdata() { 
+    if(sub.subject_code.value=="" || sub.subject_name.value=="" || sub.section.value=="" ||sub.faculty_name.value=="" || sub.semester.value==""){
+	  alert("Enter required fields before submitting");
+	  return false;
+	}
     return (confirm("Are You Sure You Want To Proceed?"));
 }
 
@@ -142,7 +146,7 @@ function submitdata() {
 		<div class="form">
             
             <div class="form_row">
-            <form action="" method="post" onsubmit=" return submitdata() ">
+            <form action="" method="post"  name ="sub" onsubmit=" return submitdata() ">
 			<label>Subject Code:</label>
             <input type="text" class="form_input" name="subject_code" />
             </div>
@@ -215,7 +219,7 @@ function submitdata() {
     </div> <!--end of center_content-->
     
     <div class="footer">
-Panelo - Free Admin Template by <a href="htpp://csstemplatesmarket.com" target="_blank">CSSTemplatesMarket</a>
+CIMS
 </div>
 
 </div>

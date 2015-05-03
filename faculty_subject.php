@@ -199,7 +199,7 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
 
             <div class="toggle_container">
 			<p>
-        Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            To-Do
 			</p>
             </div>
         </div>
@@ -224,7 +224,7 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
    
     <h2>Text Section</h2> 
     <div class="sidebar_section_text">
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+TO-do
     </div>         
     
     </div>             
@@ -234,7 +234,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
     </div> <!--end of center_content-->
     
     <div class="footer">
-Panelo - Free Admin Template by <a href="htpp://csstemplatesmarket.com" target="_blank">CSSTemplatesMarket</a>
+CIMS
 </div>
 
 </div>
