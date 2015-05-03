@@ -61,7 +61,37 @@ $(".trigger").click(function(){
 
 });
 
+$(document).ready(function(){
+    var next = 1;
+    $(".add-more").click(function(e){
+        e.preventDefault();
+        var addto = "#field" + next;
+        var addRemove = "#field" + (next);
+        next = next + 1;
+        var newIn = '<input autocomplete="off" class="form_input" id="field' + next + '" name="' + next + '" type="text">';
+        var newInput = $(newIn);
+        var removeBtn = ' <button id="remove' + (next - 1) + '" class="remove-me" >-</button></div><div id="field">';
+        var removeButton = $(removeBtn);
+        $(addto).after(newInput);
+        $(addRemove).after(removeButton);
+        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+        $("#count").val(next);  
+        
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+		$('#counter').val( function(i, oldval) {
+        return ++oldval;
+		});	
+    });
+    
 
+    
+});
 
 
 </script>
@@ -84,17 +114,7 @@ $(".trigger").click(function(){
     </div>
     
     </div>
-    <!--
-    <div class="submenu">
-    <ul>
-    <li><a href="#" class="selected">settings</a></li>
-    <li><a href="#">users</a></li>
-    <li><a href="#">categories</a></li>
-    <li><a href="#">edit section</a></li>
-    <li><a href="#">templates</a></li>
-    </ul>
-    </div>          
-     -->               
+             
     <div class="center_content">  
  
     <div id="right_wrap">
@@ -103,56 +123,66 @@ $(".trigger").click(function(){
                     
                     
 
-  
-	 <div id="tab1" class="tabcontent">
+   
+	<?php
+	
+	
+	$to_add_counter='<input type="hidden"  name="chap_count"  value="1" />';
+	$chap_count=1;
+	if(isset($_POST['chap_count']))
+	{
+		$chap_count=$_POST['chap_count'];
+		$chap_count++;
+		$to_add_counter='<input type="hidden" name="chap_count"  value="'.$chap_count.'" />';
+		
+		// -----------------code to add things to the database;
+		if($chap_count > $_POST["unit_nos"]) //if all Chapters added
+		 {
+		  header('Location: faculty_add_content.php?chapters_added=1'); 
+		 }
+	}	
+	?>
+    
+    <div id="tab1" class="tabcontent">
     
         <div class="form">
-		<?php
-			if(isset($_GET["chapters_added"]))
-			{
-				echo "<label>Addition of Content for one course Completed</label><br><br>";
-			}
-		?>
-            <form action="faculty_add_chapter.php" method="post">
-			
-				<div class="form_row">
-				<label>Subject:</label>
-				<select type="text" class="form_input" name="subject_content" >
-					<?php
-						$sql = "SELECT distinct(subject_code),subject_name FROM subject where faculty_id='".$faculty_id."' ";
-						$result = $conn->query($sql);
-						$no_of_subjects=0;
-						while($row = $result->fetch_assoc())
-						{
-							echo '<option value="'.$row["subject_code"].'" >'.$row["subject_name"].'</option>';
-						}
-					?>
-				</select>	
-				</div> 
-				<br><br>
-				<div class="form_row">
-				<label>No of Units :</label>
-				<select type="text" class="form_input" name="unit_nos" >
-					<?php
-						for($i=1;$i<21;$i++)
-						{
-							echo '<option value="'.$i.'" >'.$i.'</option>';
-						}
-					?>
-				</select>	
-				</div> 
-				<br><br>
-				<div class="form_row">
-				<input type="submit" class="form_submit" value="Submit" />
-				
-				</div>
+            <form action="" method="post">
+					<input type="hidden" name="subject_content"  value="<?php echo $_POST["subject_content"]; ?>" />
+					<input type="hidden" name="unit_nos" value="<?php echo $_POST["unit_nos"]; ?>" />
+					<?php echo $to_add_counter; ?>
+					<div class="form_row">
+					<label>Chapter <?php echo $chap_count; ?> Title:</label>
+					<input type="text" class="form_input" name="chapter_name" />
+					</div>
+					
+					<div class="form_row">
+					<label>Unit Titles:</label>
+					</div>
+					<div class="form_row">
+					<div class="container">
+						<div class="row">
+							<input type="hidden" name="count" id="counter" value="1" />
+							<div class="control-group" id="fields">
+								<div class="controls" id="profs"> 
+								
+										<div id="field"><input class="form_input" id="field1" name="1" type="text"  data-items="8"/> <button id="b1" class="add-more" type="button">+</button></div>
+								
+								<br>
+								<small>Press + to add another form field :)</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div class="form_row">
+					<input type="submit" class="form_submit" value="Next" />
+					</div> 
+					<div class="clear"></div>
+					
 			</form>
-            <br><br><br><br>
-			
-		</div>
-	</div>
-	
-	
+        </div>
+    </div>
+    
 	
      
     

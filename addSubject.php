@@ -214,9 +214,6 @@ function submitdata() {
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
-    <div class="footer">
-Panelo - Free Admin Template by <a href="htpp://csstemplatesmarket.com" target="_blank">CSSTemplatesMarket</a>
-</div>
 
 </div>
 

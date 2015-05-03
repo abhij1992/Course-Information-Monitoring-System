@@ -233,9 +233,7 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
-    <div class="footer">
-Panelo - Free Admin Template by <a href="htpp://csstemplatesmarket.com" target="_blank">CSSTemplatesMarket</a>
-</div>
+
 
 </div>
 
