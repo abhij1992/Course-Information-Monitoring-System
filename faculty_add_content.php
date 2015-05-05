@@ -163,7 +163,7 @@ $(".trigger").click(function(){
 
             <div class="toggle_container">
 			<p>
-        Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum <a href="#">dolor sit amet</a>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          TO-Do
 			</p>
             </div>
         </div>
@@ -188,7 +188,7 @@ $(".trigger").click(function(){
    
     <h2>Text Section</h2> 
     <div class="sidebar_section_text">
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+TO-DO
     </div>         
     
     </div>             
@@ -197,7 +197,13 @@ Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor 
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
+<<<<<<< HEAD
 
+=======
+    <div class="footer">
+CIMS
+</div>
+>>>>>>> origin/master
 
 </div>
 
