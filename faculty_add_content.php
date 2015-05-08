@@ -113,7 +113,7 @@ $(".trigger").click(function(){
 				echo "<label>Addition of Content for one course Completed</label><br><br>";
 			}
 		?>
-            <form action="faculty_add_chapter.php" method="post">
+            <form action="faculty_add_chapter_test.php" method="post">
 			
 				<div class="form_row">
 				<label>Subject:</label>
@@ -197,13 +197,11 @@ TO-DO
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
-<<<<<<< HEAD
 
-=======
     <div class="footer">
 CIMS
 </div>
->>>>>>> origin/master
+
 
 </div>
 

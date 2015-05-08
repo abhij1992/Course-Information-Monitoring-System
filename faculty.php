@@ -92,7 +92,7 @@ $(".trigger").click(function(){
  
     <div id="right_wrap">
     <div id="right_content">             
-<<<<<<< HEAD
+
     <h2>Tables section</h2> 
                     
                     
@@ -268,18 +268,17 @@ $(".trigger").click(function(){
     
 
     
-=======
->>>>>>> origin/master
+
         <div class="toogle_wrap">
             <div class="trigger"><a href="#">Toggle with text</a></div>
 
             <div class="toggle_container">
 			<p>
-<<<<<<< HEAD
+
 				RANDOM TEXT WE GENERATED
-=======
+
 			 Welcome Faculty...TO-DO
->>>>>>> origin/master
+
 			</p>
             </div>
         </div>
@@ -304,11 +303,9 @@ $(".trigger").click(function(){
    
     <h2>Text Section</h2> 
     <div class="sidebar_section_text">
-<<<<<<< HEAD
-RANDOM TEXT WE GENERATED
-=======
+
 	Faculty Report page </br> TO-DO: Help Info
->>>>>>> origin/master
+
     </div>         
     
     </div>             
@@ -316,14 +313,11 @@ RANDOM TEXT WE GENERATED
     
     <div class="clear"></div>
     </div> <!--end of center_content-->
-    
-<<<<<<< HEAD
 
-=======
     <div class="footer">
 CIMS
 </div>
->>>>>>> origin/master
+
 
 </div>
 

@@ -47,6 +47,7 @@
 <link href='http://fonts.googleapis.com/css?family=Belgrano' rel='stylesheet' type='text/css'>
 <!-- jQuery file -->
 <script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/multiple.js"></script>
 <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 var $ = jQuery.noConflict();
@@ -136,6 +137,7 @@ $(document).ready(function(){
 	
 	$to_add_counter='<input type="hidden"  name="chap_count"  value="1" />';
 	$chap_count=1;
+	
 	if(isset($_POST['chap_count']))
 	{
 		$chap_count=$_POST['chap_count'];
@@ -143,19 +145,36 @@ $(document).ready(function(){
 		$to_add_counter='<input type="hidden" name="chap_count"  value="'.$chap_count.'" />';
 		
 		// -----------------code to add things to the database;
+		$arr_of_chap = $_POST['units_to_add'];
+		$arr_of_hrs = $_POST['est_hrs_of_each'];
+		$total_est_hrs=0;
+		$random=0;
+		$sql="";
+		foreach($arr_of_chap as $x){
+			//echo $x." ".$arr_of_hrs[$random++]." ".($chap_count-1)." ".$_POST["subject_content"]."==";
+			$total_est_hrs=$total_est_hrs+$arr_of_hrs[$random++];
+			$t=$random-1;
+			$sql.="INSERT INTO `cms`.`course_info` VALUES (NULL, '".($chap_count-1)."', '".$random."', '".$x."', '".$arr_of_hrs[$t]."', '0', '".$_POST["subject_content"]."');";
+		}
+		$sql.="INSERT INTO `cms`.`course_info` VALUES (NULL, '".($chap_count-1)."', '0', '".$_POST["chapter_name"]."', '".$total_est_hrs."', '1', '".$_POST["subject_content"]."'); ";
+		//echo $sql;             to check query
+		if (!$conn->multi_query($sql)) {
+			echo "Multi query failed: (" . $conn->errno . ") " . $conn->error;
+		}
 		if($chap_count > $_POST["unit_nos"]) //if all Chapters added
 		 {
 		  header('Location: faculty_add_content.php?chapters_added=1'); 
 		 }
 	}	
-	/*if($chap_count==1){
+	else{
 		$sql = "DELETE  a, b 
 		FROM course_info a
         INNER JOIN progress b
             ON b.subject_code=a.sub_code
 				WHERE  a.sub_code='".$_POST["subject_content"]."'";
 		$result = $conn->query($sql);
-	}*/
+	}
+	
 	?>
     
     <div id="tab1" class="tabcontent">
@@ -171,26 +190,36 @@ $(document).ready(function(){
 					</div>
 					
 					<div class="form_row">
-					<label>Unit Titles:</label>
+									<label>Unit Titles:</label>
+									</div>
+									<div class="form_row">
+									<p> 
+									<input type="button" value="Add Unit" onClick="addRow('dataTable')" /> 
+									<input type="button" value="Remove Selected Unit" onClick="deleteRow('dataTable')"  /> 
+								</p>
+							   <table id="dataTable" class="form" border="0" width="600">
+								  <tr><th></th><th>Unit</th><th>est hrs</th></tr>
+								  <tbody>
+								  
+									<tr>
+									  <p>
+										<td><input type="checkbox"  name="chk[]"  /></td>
+										<td>
+											
+											<input type="text"  name="units_to_add[]" size="70">
+										 </td>
+										 <td >
+											
+											<input type="text"  class="small"  name="est_hrs_of_each[]" size="3">
+										 </td>
+										 
+											</p>
+									</tr>
+									</tbody>
+								</table>
 					</div>
 					<div class="form_row">
-					<div class="container">
-						<div class="row">
-							<input type="hidden" name="count" id="counter" value="1" />
-							<div class="control-group" id="fields">
-								<div class="controls" id="profs"> 
-								
-										<div id="field"><input class="form_input" id="field1" name="t1" type="text"  data-items="8"/> <input id="hfield1" name="h1" type="text"/><button id="b1" class="add-more" type="button">+</button></div>
-								
-								<br>
-								<small>Press + to add another form field :)</small>
-								</div>
-							</div>
-						</div>
-					</div>
-					</div>
-					<div class="form_row">
-					<input type="submit" class="form_submit" value="Next" />
+					<input type="submit" class="form_submit" value="Next Chapter" />
 					</div> 
 					<div class="clear"></div>
 					
