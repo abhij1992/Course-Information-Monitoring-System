@@ -11,6 +11,7 @@ session_start();
      }  
     }else header('Location: index.php'); 
 
+	include_once("./semHODReport.php"); //Include the file which prints progress of each sem
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,6 +23,8 @@ session_start();
 <!-- jQuery file -->
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
+<script src="./Chart/Chart.js"></script>
+<?php printPie();?>
 <script type="text/javascript">
 var $ = jQuery.noConflict();
 $(function() {
@@ -59,18 +62,26 @@ function submitdata() {
  
     <div id="right_wrap">
     <div id="right_content">             
-	    <h2>TO-DO:Display Pie chart representing the current completion status of each sem</h2></br></br>
-        <div class="toogle_wrap">
-            <div class="trigger"><a href="#">Toggle with text</a></div>
-
-            <div class="toggle_container">
-			<p>
-       This Section allows you to Post notifications for each subject...</br></br></br>
-	The notifications are grouped by Subject Code..</br></br></br>
-	Click the Subject Code tab to access or delete the notifications posted so far.
-			</p>
-            </div>
-        </div>
+	    <h2>Semester-wise Course Completion Statistics</h2></br></br>
+		<div>
+		<table cellspacing="50">
+		  <tr><td><p id="chart0Title"></p></td><td><canvas id="chart0"  width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart1Title"></p></td><td><canvas id="chart1" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart2Title"></p></td><td><canvas id="chart2" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart3Title"></p></td><td><canvas id="chart3" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart4Title"></p></td><td><canvas id="chart4" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart5Title"></p></td><td><canvas id="chart5" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart6Title"></p></td><td><canvas id="chart6" width="300" height="300""></canvas></td></tr>
+		   <tr><td><p id="chart7Title"></p></td><td><canvas id="chart7" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart8Title"></p></td><td><canvas id="chart8" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart9Title"></p></td><td><canvas id="chart9" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart10Title"></p></td><td><canvas id="chart10" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart11Title"></p></td><td><canvas id="chart11" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart12Title"></p></td><td><canvas id="chart12" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart13Title"></p></td><td><canvas id="chart13" width="300" height="300"></canvas></td></tr>
+		   <tr><td><p id="chart14Title"></p></td><td><canvas id="chart14" width="300" height="300"></canvas></td></tr>
+		</table>
+		</div>
       
      </div>
      </div><!-- end of right content-->

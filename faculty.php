@@ -57,6 +57,10 @@ $(".trigger").click(function(){
 	return false;
 });
 });
+
+function submitdata() { 
+    return (confirm("Are You Sure You Want To Proceed?"));
+}
 </script>
 </head>
 <body>
@@ -91,195 +95,34 @@ $(".trigger").click(function(){
     <div class="center_content">  
  
     <div id="right_wrap">
-    <div id="right_content">             
-
-    <h2>Tables section</h2> 
-                    
-                    
-<table id="rounded-corner">
-    <thead>
-    	<tr>
-        	<th></th>
-            <th>Product</th>
-            <th>Details</th>
-            <th>Price</th>
-            <th>Date</th>
-            <th>Category</th>
-            <th>User</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
-    </thead>
-        <tfoot>
-    	<tr>
-        	<td colspan="12">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</td>
-        </tr>
-    </tfoot>
-    <tbody>
-    	<tr class="odd">
-        	<td><input type="checkbox" name="" /></td>
-            <td>Box Software</td>
-            <td>Lorem ipsum dolor sit amet consectetur</td>
-            <td>45$</td>
-            <td>10/04/2011</td>
-            <td>web design</td>
-            <td>Alex</td>
-            <td><a href="#"><img src="images/edit.png" alt="" title="" border="0" /></a></td>
-            <td><a href="#"><img src="images/trash.gif" alt="" title="" border="0" /></a></td>
-        </tr>
-    	<tr class="even">
-        	<td><input type="checkbox" name="" /></td>
-            <td>Trial Software</td>
-            <td>Lorem ipsum dolor sit amet consectetur</td>
-            <td>155$</td>
-            <td>12/04/2011</td>
-            <td>web design</td>
-            <td>Carrina</td>
-            <td><a href="#"><img src="images/edit.png" alt="" title="" border="0" /></a></td>
-            <td><a href="#"><img src="images/trash.gif" alt="" title="" border="0" /></a></td>
-        </tr>
-    	<tr class="odd">
-        	<td><input type="checkbox" name="" /></td>
-            <td>Hosting Pack</td>
-            <td>Lorem ipsum dolor sit amet consectetur</td>
-            <td>45$</td>
-            <td>10/04/2011</td>
-            <td>web design</td>
-            <td>Alex</td>
-            <td><a href="#"><img src="images/edit.png" alt="" title="" border="0" /></a></td>
-            <td><a href="#"><img src="images/trash.gif" alt="" title="" border="0" /></a></td
-        </tr>
-    	<tr class="even">
-        	<td><input type="checkbox" name="" /></td>
-            <td>Duo Software</td>
-            <td>Lorem ipsum dolor sit amet consectetur</td>
-            <td>745$</td>
-            <td>10/04/2011</td>
-            <td>web design</td>
-            <td>Alex</td>
-            <td><a href="#"><img src="images/edit.png" alt="" title="" border="0" /></a></td>
-            <td><a href="#"><img src="images/trash.gif" alt="" title="" border="0" /></a></td
-        </tr>
-    	<tr class="odd">
-        	<td><input type="checkbox" name="" /></td>
-            <td>Alavasti Software</td>
-            <td>Lorem ipsum dolor sit amet consectetur</td>
-            <td>45$</td>
-            <td>10/04/2011</td>
-            <td>web design</td>
-            <td>John</td>
-            <td><a href="#"><img src="images/edit.png" alt="" title="" border="0" /></a></td>
-            <td><a href="#"><img src="images/trash.gif" alt="" title="" border="0" /></a></td
-        </tr>
-    	<tr class="even">
-        	<td><input type="checkbox" name="" /></td>
-            <td>Box Software</td>
-            <td>Lorem ipsum dolor sit amet consectetur</td>
-            <td>45$</td>
-            <td>10/04/2011</td>
-            <td>web design</td>
-            <td>Doe</td>
-            <td><a href="#"><img src="images/edit.png" alt="" title="" border="0" /></a></td>
-            <td><a href="#"><img src="images/trash.gif" alt="" title="" border="0" /></a></td
-        </tr>
-  
-        
-    </tbody>
-</table>
-
-	<div class="form_sub_buttons">
-	<a href="#" class="button green">Edit selected</a>
-    <a href="#" class="button red">Delete selected</a>
-    </div>
-    
-    <ul id="tabsmenu" class="tabsmenu">
-        <li class="active"><a href="#tab1">Form Design Structure</a></li>
-        <li><a href="#tab2">Tab two</a></li>
-        <li><a href="#tab3">Tab three</a></li>
-        <li><a href="#tab4">Tab four</a></li>
-		<li><a href="#tab5">subject 5</a></li>
-		<li><a href="#tab6">subject 6</a></li>
-    </ul>
-    <div id="tab1" class="tabcontent">
-        <h3>Tab one title</h3>
-        <div class="form">
+    <div id="right_content">  
+        <div class="toogle_wrap">
+            <div class="trigger"><a href="#">Update your Info</a></div>
+            <div class="toggle_container">
+			<div class="form">
             
             <div class="form_row">
-            <label>Name:</label>
-            <input type="text" class="form_input" name="" />
-            </div>
-             
-            <div class="form_row">
-            <label>Email:</label>
-            <input type="text" class="form_input" name="" />
+            <form action="" method="post" name="facultyinfo" onsubmit=" return submitdata() ">
+			<label>Phone Number:</label>
+            <input type="text" class="form_input" name="phone" />
             </div>
             
-            <div class="form_row">
-            <label>Subject:</label>
-            <select class="form_select" name="">
-            <option>Select one</option>
-            </select>
+			<div class="form_row">
+            <label>E-Mail:</label>
+            <input type="text" class="form_input" name="e-mail" />
             </div>
-            
-             <div class="form_row">
-            <label>Message:</label>
-            <textarea class="form_textarea" name=""></textarea>
-            </div>
+			
             <div class="form_row">
-            <input type="submit" class="form_submit" value="Submit" />
+            <label>Address</label>
+            <textarea class="form_textarea" name="address"></textarea>
+            </div>
+			
+            <div class="form_row">
+            <input type="submit" class="form_submit" name="submit" value="Update" />
             </div> 
             <div class="clear"></div>
-        </div>
-    </div>
-    <div id="tab2" class="tabcontent">
-        <h3>Tab two title</h3>
-        <p>RANDOM TEXT WE GENERATED
-		</p>
-		
-    </div>
-
-    <div id="tab3" class="tabcontent">
-        <h3>Tab three title</h3>
-        <p>
-    RANDOM TEXT WE GENERATED tab3333333333333333
-	</p>
-    </div> 
-    
-    <div id="tab4" class="tabcontent">
-        <h3>Tab four title</h3>
-        <p>
-    RANDOM TEXT WE GENERATED
-	</p>
-    </div> 
-	<div id="tab5" class="tabcontent">
-        <h3>Tab 5 title</h3>
-        <p>
-    RANDOM TEXT WE GENERATED asdasd
-        </p>
-    </div> 
-	<div id="tab6" class="tabcontent">
-        <h3>Tab 6 title</h3>
-        <p>
-		 tab 6 RANDOM TEXT WE GENERATED
-        </p>
-    </div> 
-	
-     
-    
-
-    
-
-        <div class="toogle_wrap">
-            <div class="trigger"><a href="#">Toggle with text</a></div>
-
-            <div class="toggle_container">
-			<p>
-
-				RANDOM TEXT WE GENERATED
-
-			 Welcome Faculty...TO-DO
-
-			</p>
+			</form>
+            </div>           
             </div>
         </div>
       
