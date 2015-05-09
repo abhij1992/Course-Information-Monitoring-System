@@ -54,6 +54,27 @@ and progress.section='".$subjectsec1."'
 and progress.subject_code='".$subjectcode1."'";
 			$conn->query($sql);
 		}
+		
+	}
+	if(isset($_GET["to_update"]))
+	{
+		$course_id_edit=$_GET["to_update"];	
+		$sql="select * from progress where progress.course_id=".$course_id_edit." and progress.section='".$subjectsec1."' and progress.subject_code='".$subjectcode1."'";
+		$result = $conn->query($sql);
+		if ($result->num_rows == 0)
+		{	//insert new value
+			$sql="insert into progress values (null,".$_GET[$course_id_edit].",0,'".$subjectcode1."','".$subjectsec1."',".$course_id_edit.")";
+			$conn->query($sql);
+		}
+		else{
+			//update with new value
+			$row = $result->fetch_assoc();
+			$sql="update progress set completed_hrs=".$_GET[$course_id_edit]." 
+where progress.course_id=".$course_id_edit." 
+and progress.section='".$subjectsec1."' 
+and progress.subject_code='".$subjectcode1."'";
+			$conn->query($sql);
+		}
 	}
 	//END OF TO ADD HOUR
 	
@@ -129,7 +150,7 @@ $(".trigger").click(function(){
             <th>Estimated Hours</th>
             <th>Completed Hours</th>
             <th>Add Hour</th>
-            <th>Completed</th>
+            <th>Update Hour</th>
             
         </tr>
     </thead>
@@ -169,17 +190,15 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
 		echo '<td>'.$row["unit_no"].'</td>';
 		echo '<td>'.$row["text"].'</td>';
 		echo '<td>'.$row["est_hrs"].'</td>';
-		echo '<td>'.$row["completed_hrs"].'</td>';
+		echo '<td><input type=text name="'.$row["id"].'" value="'.$row["completed_hrs"].'" size=2 /></td>';
 		if($row["is_heading"]==1)
 			echo '<td></td>';
 		else
+		{	
 			echo '<td><button name="to_add_id" value="'.$row["id"].'" type="submit">Add hour</button></td>';
-		//echo '<td><input type=submit value="Add Hour" name="add'.$row["id"].'" </td>';
-		echo '<td><input type="checkbox" name="completed'.$row["id"].'" ';
-		if($row["is_complete"]==1)
-			echo "checked";
-		echo '/></td>';
-		
+			//echo '<td><input type=submit value="Add Hour" name="add'.$row["id"].'" </td>';
+			echo '<td><button name="to_update" value="'.$row["id"].'" type="submit">Update hour</button></td>';
+		}
 		
 		echo '</tr>';
 		

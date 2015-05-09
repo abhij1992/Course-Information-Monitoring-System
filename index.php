@@ -110,13 +110,16 @@ $conn->close();
   </p>
   <br><h3>Select Semester </h3>
   <form name="Student" action="Student.php">
-  <br><select name="Semester" style="width: 100px">
+  <br>Semester :<select name="sem" style="width: 100px">
   <option value="1" >1</option>
   <option value="2" >2</option>
   <option value="3" >3</option>
   <option value="4" >4</option>
   <option value="5" >5</option>
   <option value="6" >6</option>
+  </select> Section :<select name="sec" style="width: 100px">
+  <option value="A" >A</option>
+  <option value="B" >B</option>
   </select>
   <input type="submit" style="width: 150px" value="See Progress" name="SemForm"/>
   </form>
