@@ -72,15 +72,94 @@ $(".trigger").click(function(){
     <div id="right_wrap">
     <div id="right_content">             
 
-    <h2>OVER ALL PROGRESS</h2> 
-        <?php echo "select sum(c.est_hrs) as est_hrs,sum(p.completed_hrs) as comp_hrs
-from course_info c left join subject s on c.sub_code = s.subject_code
-left join progress p on p.course_id=c.id and p.section=s.section
-where c.is_heading = 0
-and s.semester =".$sem."
-and s.section = '".$sec."'";
-?>
-                    
+    <h2>Progress</h2> 
+        <ul id="tabsmenu" class="tabsmenu">
+	     <?php
+			$i=1;
+			$sql="SELECT * 
+				  FROM subject s 
+				  where s.section='".$sec."' and s.semester =".$sem;
+			$res=$conn->query($sql);
+			if($res->num_rows > 0)
+			{
+				while($row=$res->fetch_assoc())
+				{
+					$unique_subject_code[$i++]=$row['subject_code'];
+					$subject_code_name_hash[$row['subject_code']]=$row['subject_name'];
+				}
+				$i=1;
+				foreach($unique_subject_code as $s)
+				{
+				   if($i==1) echo "<li class=\"active\"><a href=\"#tab".$i."\">".$subject_code_name_hash[$s]."</a></li>";
+				   else echo "<li><a href=\"#tab".$i."\">".$subject_code_name_hash[$s]."</a></li>";
+				   echo "\n";
+				   $i++;
+				}
+			
+			
+		echo "</ul>";
+				
+				  $i=1;
+				  foreach($unique_subject_code as $s)
+				  {
+						echo "<div id=\"tab".$i."\" class=\"tabcontent\"> ";
+						?>
+							<table id="rounded-corner">
+								<thead>
+									<tr>
+										<th>Chapter</th>
+										<th>Unit</th>
+										<th>Title</th>
+										<th>Estimated Hours</th>
+										<th>Completed Hours</th>
+									
+										
+									</tr>
+								</thead>
+									<tfoot>
+									<tr>
+										<td colspan="12" align="center"></td>
+									</tr>
+								</tfoot>
+								<tbody>
+						<?php
+						
+						
+													  $sql="select c.id,c.chap_no,c.unit_no,c.`text`,c.est_hrs,c.is_heading,p.completed_hrs,p.is_complete from course_info c left join subject s on c.sub_code = s.subject_code
+							left join progress p on p.course_id=c.id and p.section=s.section
+							where s.subject_code='".$s."' 
+							and s.section='".$sec."' ORDER BY c.chap_no,c.unit_no";
+
+								$result = $conn->query($sql);
+								
+								while($row = $result->fetch_assoc())
+								{
+									if($row["is_heading"]==1)
+										echo '<tr class="odd">';
+									else
+										echo '<tr class="even">';
+									echo '<td>'.$row["chap_no"].'</td>';
+									echo '<td>'.$row["unit_no"].'</td>';
+									echo '<td>'.$row["text"].'</td>';
+									echo '<td>'.$row["est_hrs"].'</td>';
+									echo '<td>'.$row["completed_hrs"].'</td>';
+									
+									
+									echo '</tr>';
+									
+								}
+							
+							echo "</table>";
+						
+						
+						
+						echo "</div>";			
+					$i++;	
+				  }
+			}
+				?>
+                
+
 
 
 	
