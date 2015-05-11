@@ -32,7 +32,7 @@
 	$subjectsec1=$_GET["section_sel"];
 	
 	
-	
+	$flag1=0;
 	//TO ADD Hour
 	if(isset($_GET["to_add_id"]))
 	{
@@ -54,7 +54,7 @@ and progress.section='".$subjectsec1."'
 and progress.subject_code='".$subjectcode1."'";
 			$conn->query($sql);
 		}
-		
+		$flag1=1;
 	}
 	if(isset($_GET["to_update"]))
 	{
@@ -75,9 +75,25 @@ and progress.section='".$subjectsec1."'
 and progress.subject_code='".$subjectcode1."'";
 			$conn->query($sql);
 		}
+		$flag1=1;
 	}
 	//END OF TO ADD HOUR
+	if($flag1==1){
 	
+	
+	
+		$sql="select c.id,c.chap_no,c.unit_no,c.`text`,c.est_hrs,c.is_heading,p.completed_hrs,p.is_complete from course_info c left join subject s on c.sub_code = s.subject_code
+left join progress p on p.course_id=c.id and p.section=s.section
+where c.id=".$course_id_edit." and s.section = '".$subjectsec1."'";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+
+		if($row["est_hrs"]<$row["completed_hrs"]){
+			$x1=$row["completed_hrs"];
+			$sql="update course_info set est_hrs=".$x1." where id=".$course_id_edit.";";
+			$conn->query($sql);
+		}
+	}
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -189,8 +205,13 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
 		echo '<td>'.$row["chap_no"].'</td>';
 		echo '<td>'.$row["unit_no"].'</td>';
 		echo '<td>'.$row["text"].'</td>';
-		echo '<td>'.$row["est_hrs"].'</td>';
-		echo '<td><input type=text name="'.$row["id"].'" value="'.$row["completed_hrs"].'" size=2 /></td>';
+		if($row["is_heading"]==0){
+			echo '<td>'.$row["est_hrs"].'</td>';
+			echo '<td><input type=text name="'.$row["id"].'" value="'.$row["completed_hrs"].'" size=2 /></td>';
+		}
+		else
+			echo "<td></td><td></td>";
+		
 		if($row["is_heading"]==1)
 			echo '<td></td>';
 		else

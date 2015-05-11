@@ -17,11 +17,27 @@
 	if ($conn->connect_error) { //Check connection
 		die("Connection failed: " . $conn->connect_error);
 	}
-	$sql = "SELECT id,name FROM faculty where uname='".$_SESSION["unames"]."' ";
+	if(isset($_POST["Update"])){
+		$sql="UPDATE `faculty` SET `email`='".$_POST["email"]."',`address`='".$_POST["address"]."',`phone_no`='".$_POST["phone"]."' 
+		WHERE id='".$_POST["fac_id"]."'";
+		if($conn->query($sql)){
+			echo "<script>alert('Your information has been updated');</script>";
+		}
+		else{
+			echo "<script>alert('Failed to update your information');</script>";
+		}
+		
+	}
+	$sql = "SELECT * FROM faculty where uname='".$_SESSION["unames"]."' ";
 	$result = $conn->query($sql);
 	$row = $result->fetch_assoc();
 	$faculty_id=$row["id"];
 	$faculty_name=$row["name"];
+	$faculty_phone=$row["phone_no"];
+	$faculty_email=$row["email"];
+	$faculty_address=$row["address"];
+	
+	
 	$faculty_code=$_SESSION["unames"];
 	$sql = "SELECT * FROM subject where faculty_id='".$faculty_id."' ";
 	$result = $conn->query($sql);
@@ -34,7 +50,9 @@
 		$subject_section[$no_of_subjects]=$row["section"];
 		$no_of_subjects++;
 	}	
-		
+	
+
+	
 	
 ?>
 
@@ -100,25 +118,24 @@ function submitdata() {
             <div class="trigger"><a href="#">Update your Info</a></div>
             <div class="toggle_container">
 			<div class="form">
-            
             <div class="form_row">
             <form action="" method="post" name="facultyinfo" onsubmit=" return submitdata() ">
 			<label>Phone Number:</label>
-            <input type="text" class="form_input" name="phone" />
+            <input type="text" class="form_input" name="phone" value="<?php echo $faculty_phone; ?>" />
             </div>
             
 			<div class="form_row">
             <label>E-Mail:</label>
-            <input type="text" class="form_input" name="e-mail" />
+            <input type="text" class="form_input" name="email" value="<?php echo $faculty_email; ?>"/>
             </div>
 			
             <div class="form_row">
             <label>Address</label>
-            <textarea class="form_textarea" name="address"></textarea>
+            <textarea class="form_textarea" name="address"><?php echo $faculty_address; ?></textarea>
             </div>
-			
+			<input type="hidden" name="fac_id" value="<?php echo $faculty_id; ?>">
             <div class="form_row">
-            <input type="submit" class="form_submit" name="submit" value="Update" />
+            <input type="submit" class="form_submit" name="Update" value="Update" />
             </div> 
             <div class="clear"></div>
 			</form>
