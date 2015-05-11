@@ -12,6 +12,37 @@ session_start();
     }else header('Location: index.php'); 
 
 	include_once("./semHODReport.php"); //Include the file which prints progress of each sem
+	
+	include 'connection.php'; 
+	//fetching main information
+	if ($conn->connect_error) { //Check connection
+		die("Connection failed: " . $conn->connect_error);
+	}
+	
+	//code to put all faculty and their details in a hash
+	$sql="SELECT  * from faculty WHERE `isAdmin`=0;";
+	$res=$conn->query($sql);
+	if($res->num_rows > 0)
+	{
+	   while($row=$res->fetch_assoc())
+	   {
+	      $faculty[$row["uname"]]=$row["name"];
+	   }
+	}
+	
+	//check if request to display faculty info is requested and process it
+	if(isset($_POST["faculty"])){
+	  $sql="select name,email,address,phone_no from faculty where `name`='".$_POST["faculty"]."';";
+	  if($res=$conn->query($sql)){
+	  $row=$res->fetch_assoc();
+	  $faculty_name=$row["name"];
+	  $faculty_phone=$row["phone_no"];
+	  $faculty_email=$row["email"];
+	  $faculty_address=$row["address"];
+	  }else{
+	   echo "Failed to load faculty data";
+	  }
+	}
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -63,27 +94,45 @@ function submitdata() {
  
     <div id="right_wrap">
     <div id="right_content">             
-	    <h2>Semester-wise Course Completion Statistics</h2></br></br>
-		<div>
-		<table cellspacing="50">
-		  <tr><td><p id="chart0Title"></p></td><td><canvas id="chart0"  width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart1Title"></p></td><td><canvas id="chart1" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart2Title"></p></td><td><canvas id="chart2" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart3Title"></p></td><td><canvas id="chart3" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart4Title"></p></td><td><canvas id="chart4" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart5Title"></p></td><td><canvas id="chart5" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart6Title"></p></td><td><canvas id="chart6" width="300" height="300""></canvas></td></tr>
-		   <tr><td><p id="chart7Title"></p></td><td><canvas id="chart7" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart8Title"></p></td><td><canvas id="chart8" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart9Title"></p></td><td><canvas id="chart9" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart10Title"></p></td><td><canvas id="chart10" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart11Title"></p></td><td><canvas id="chart11" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart12Title"></p></td><td><canvas id="chart12" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart13Title"></p></td><td><canvas id="chart13" width="300" height="300"></canvas></td></tr>
-		   <tr><td><p id="chart14Title"></p></td><td><canvas id="chart14" width="300" height="300"></canvas></td></tr>
-		</table>
-		</div>
-      
+	    <h2>Faculty Report</h2>
+		 <div class="form">
+            
+            <div class="form_row">
+            <form action="" method="post" name="faculty" >
+			<label>Faculty:</label>
+            <select class="form_select" name="faculty">
+			<?php
+			  foreach($faculty as $k=>$v)
+			  { echo "<option>".$v."</option>"; }
+			?>
+            </select>
+            </div>
+          
+            <div class="form_row">
+            <input type="submit" class="form_submit" name="submitFaculty" value="Generate Report" />
+            </div> 
+            <div class="clear"></div>
+			</form>
+            </div>
+		<?php if(!empty($faculty_name)){
+		      echo "<h2 align=center>".$faculty_name."</h2>";		  
+		?>
+		   <table id="rounded-corner">
+		   <thead>
+    	   <tr><th>Name</th><th>Phone No</th><th>E-mail</th><th>Address</th></tr>
+		   </thead>
+		   <tfoot>
+    	  <tr>
+        	<td colspan="4">Faculty info</td>
+          </tr>
+          </tfoot>
+		  <tbody><tr>
+		  <?php 
+		     echo "<td>".$faculty_name."</td><td>".$faculty_phone."</td><td>".$faculty_email."</td><td>".$faculty_address."</td>";
+		  ?>
+		  </tr></tbody>
+		   </table>
+		<?php }?>
      </div>
      </div><!-- end of right content-->
                      
@@ -97,7 +146,7 @@ function submitdata() {
     
     <h2>Text Section</h2> 
     <div class="sidebar_section_text">
-    TO-DO
+    Faculty information and progress report.
     </div>         
     
     </div>             
@@ -106,7 +155,7 @@ function submitdata() {
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
-    <div class="footer">
+ <div class="footer">
 CIMS
 </div>
 

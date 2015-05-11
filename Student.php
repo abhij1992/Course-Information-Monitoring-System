@@ -6,7 +6,7 @@
 		header("location:index.php");
 	$sem=$_GET["sem"];
 	$sec=$_GET["sec"];
-	
+	include_once("./studentChart.php"); // includes file which takes sem and sec as input and displays overall completed chart
 	include 'connection.php'; 
 	//fetching main information
 	if ($conn->connect_error) { //Check connection
@@ -26,6 +26,8 @@
 <!-- jQuery file -->
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
+<script src="./Chart/Chart.js"></script>
+<?php printPie("completed");?>
 <script type="text/javascript">
 var $ = jQuery.noConflict();
 $(function() {
@@ -72,24 +74,20 @@ $(".trigger").click(function(){
     <div id="right_wrap">
     <div id="right_content">             
 
-    <h2>OVER ALL PROGRESS</h2> 
-        <?php echo "select sum(c.est_hrs) as est_hrs,sum(p.completed_hrs) as comp_hrs
+      <!--  <?php echo "select sum(c.est_hrs) as est_hrs,sum(p.completed_hrs) as comp_hrs
 from course_info c left join subject s on c.sub_code = s.subject_code
 left join progress p on p.course_id=c.id and p.section=s.section
 where c.is_heading = 0
 and s.semester =".$sem."
 and s.section = '".$sec."'";
-?>
-                    
 
-
+?> -->
+    <h2 align="center">OVER ALL PROGRESS</h2> 
+    <div align="center">
+	<h2 id="PieTitle"></h2>
+	<canvas id="completed" width="400" height="400"></canvas>
+	</div>
 	
-    
-
-    
-
-      
-      
      </div>
      </div><!-- end of right content-->
                      
