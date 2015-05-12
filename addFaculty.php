@@ -87,6 +87,7 @@ function submitdata() {
     <ul>
     <li><a href="admin.php" class="selected">Main page</a></li>
 	<li><a href="faculty_report.php" >Faculty Report</a></li>
+	<li><a href="admin_subject_sem.php" >Subject Report</a></li>
     </ul>
     </div>
     

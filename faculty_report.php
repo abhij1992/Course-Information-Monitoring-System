@@ -11,13 +11,15 @@ session_start();
      }  
     }else header('Location: index.php'); 
 
-	include_once("./semHODReport.php"); //Include the file which prints progress of each sem
+	
 	
 	include 'connection.php'; 
 	//fetching main information
 	if ($conn->connect_error) { //Check connection
 		die("Connection failed: " . $conn->connect_error);
 	}
+	
+	include_once("./faculty_reportChart.php"); // includes file which takes faculty id to generate completion pie chart of all her subjects
 	
 	//code to put all faculty and their details in a hash
 	$sql="SELECT  * from faculty WHERE `isAdmin`=0;";
@@ -32,9 +34,10 @@ session_start();
 	
 	//check if request to display faculty info is requested and process it
 	if(isset($_POST["faculty"])){
-	  $sql="select name,email,address,phone_no from faculty where `name`='".$_POST["faculty"]."';";
+	  $sql="select id,name,email,address,phone_no from faculty where `name`='".$_POST["faculty"]."';";
 	  if($res=$conn->query($sql)){
 	  $row=$res->fetch_assoc();
+	  $faculty_id=$row["id"];
 	  $faculty_name=$row["name"];
 	  $faculty_phone=$row["phone_no"];
 	  $faculty_email=$row["email"];
@@ -55,7 +58,8 @@ session_start();
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
 <script src="./Chart/Chart.js"></script>
-<?php printPie();?>
+<?php if(isset($_POST["faculty"])) { printPie("completed",$faculty_id);}?>
+
 <script type="text/javascript">
 var $ = jQuery.noConflict();
 $(function() {
@@ -85,6 +89,7 @@ function submitdata() {
     <ul>
     <li><a href="admin.php" class="selected">Main page</a></li>
 	<li><a href="faculty_report.php" >Faculty Report</a></li>
+	<li><a href="admin_subject_sem.php" >Subject Report</a></li>
     </ul>
     </div>
     
@@ -132,7 +137,20 @@ function submitdata() {
 		  ?>
 		  </tr></tbody>
 		   </table>
-		<?php }?>
+		   
+		   
+		<?php
+			echo "select s.subject_name,sum(c.est_hrs),sum(p.completed_hrs),((sum(p.completed_hrs)/sum(c.est_hrs))*100) as avg
+from course_info c left join subject s on c.sub_code = s.subject_code
+left join progress p on p.course_id=c.id and p.section=s.section
+where c.is_heading = 0
+and s.faculty_id = ".$faculty_id."
+group by s.subject_name";
+		}?>
+		<div align="center">
+	     <h2 id="PieTitle"></h2>
+	     <canvas id="completed" width="200" height="200"></canvas>
+	    </div>
      </div>
      </div><!-- end of right content-->
                      

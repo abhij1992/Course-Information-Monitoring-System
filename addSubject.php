@@ -109,6 +109,7 @@ function submitdata() {
     <ul>
     <li><a href="admin.php" class="selected">Main page</a></li>
 	<li><a href="faculty_report.php" >Faculty Report</a></li>
+	<li><a href="admin_subject_sem.php" >Subject Report</a></li>
     </ul>
     </div>
     
@@ -219,12 +220,10 @@ function submitdata() {
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
-<<<<<<< HEAD
-=======
+
     <div class="footer">
 CIMS
 </div>
->>>>>>> origin/master
 
 </div>
 
