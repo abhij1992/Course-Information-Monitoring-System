@@ -3,3 +3,13 @@ from course_info c left join subject s on c.sub_code = s.subject_code
 left join progress p on p.course_id=c.id and p.section=s.section
 where c.is_heading = 0
 group by s.semester 
+
+
+
+select s.subject_name,sum(c.est_hrs),sum(p.completed_hrs)
+from course_info c left join subject s on c.sub_code = s.subject_code
+left join progress p on p.course_id=c.id and p.section=s.section
+where c.is_heading = 0
+and s.faculty_id = 3
+group by s.subject_name
+with ROLLUP
