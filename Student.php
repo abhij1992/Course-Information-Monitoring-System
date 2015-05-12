@@ -82,7 +82,7 @@ and s.semester =".$sem."
 and s.section = '".$sec."'";
 
 ?> -->
-    <h2 align="center">OVER ALL PROGRESS</h2> 
+    <h2 align="center">OVER ALL PROGRESS: Progress chart for total number of classes taken for the whole semester</h2> 
     <div align="center">
 	<h2 id="PieTitle"></h2>
 	<canvas id="completed" width="400" height="400"></canvas>

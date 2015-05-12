@@ -137,19 +137,12 @@ function submitdata() {
 		  ?>
 		  </tr></tbody>
 		   </table>
-		   
-		   
-		<?php
-			echo "select s.subject_name,sum(c.est_hrs),sum(p.completed_hrs),((sum(p.completed_hrs)/sum(c.est_hrs))*100) as avg
-from course_info c left join subject s on c.sub_code = s.subject_code
-left join progress p on p.course_id=c.id and p.section=s.section
-where c.is_heading = 0
-and s.faculty_id = ".$faculty_id."
-group by s.subject_name";
+		   </br></br>
+		   <h2>Total conducted classes for each subject by <?php echo $faculty_name; ?></h2></br>
+		<?php 
 		}?>
 		<div align="center">
-	     <h2 id="PieTitle"></h2>
-	     <canvas id="completed" width="200" height="200"></canvas>
+	     <canvas id="completed" width="500" height="500"></canvas>
 	    </div>
      </div>
      </div><!-- end of right content-->
