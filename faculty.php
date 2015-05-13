@@ -65,6 +65,38 @@
 <!-- jQuery file -->
 <script src="js/jquery.min.js"></script>
 <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
+<script>
+function submitdata1() { 
+		var x = document.forms["facultyinfo"]["phone"].value;
+		var phoneno = /^\d{10}$/;
+		if (x == null || x == "") {
+			alert("Phone number must be filled out");
+			return false;
+		}
+		if(!(x.match(phoneno)))
+        {
+			alert("Phone number is invalid");
+			return false;
+        }
+		var x = document.forms["facultyinfo"]["email"].value;
+		var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+		if (x == null || x == "") {
+			alert("Email must be filled out");
+			return false;
+		}
+		if(!(x.match(re)))
+        {
+			alert("Email is invalid");
+			return false;
+        }
+		var x = document.forms["facultyinfo"]["address"].value;
+		if (x == null || x == "") {
+			alert("Address must be filled out");
+			return false;
+		}
+    return (confirm("Are You Sure You Want To Proceed?"));
+}
+</script>
 <script type="text/javascript">
 var $ = jQuery.noConflict();
 $(function() {
@@ -76,9 +108,7 @@ $(".trigger").click(function(){
 });
 });
 
-function submitdata() { 
-    return (confirm("Are You Sure You Want To Proceed?"));
-}
+
 </script>
 </head>
 <body>
@@ -119,7 +149,7 @@ function submitdata() {
             <div class="toggle_container">
 			<div class="form">
             <div class="form_row">
-            <form action="" method="post" name="facultyinfo" onsubmit=" return submitdata() ">
+            <form action="" method="post" name="facultyinfo" onsubmit="return submitdata1()">
 			<label>Phone Number:</label>
             <input type="text" class="form_input" name="phone" value="<?php echo $faculty_phone; ?>" />
             </div>
