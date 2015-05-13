@@ -61,7 +61,7 @@ session_start();
 	  { 
 	    if(!empty($_POST['deleteSubject'])){
 	    //delete the subject,process it
-		$sql="DELETE FROM subject WHERE id=".$_POST['deleteSubject'].";";
+		$sql="DELETE FROM subject WHERE id=".$_POST['deleteSubject'].";"; // this query needs to be taken care of
 		if(!($conn->query($sql))) {echo "<h2>Error...Unable to delete Subject...</h2>";}
 		}
 	  }
@@ -93,6 +93,10 @@ function submitdata() {
 	  return false;
 	}
     return (confirm("Are You Sure You Want To Proceed?"));
+}
+function confirmsubmit()
+{
+return (confirm("Are You Sure You Want To Delete?"));
 }
 
 </script>
@@ -137,7 +141,7 @@ function submitdata() {
     	      foreach($subject as $k=>$v)
 			  {
 			   echo "<tr class=\"even\"><td>".$v[0]."</td><td>".$v[1]."</td><td>".$v[2]."</td><td>".$v[3]."</td><td>".$v[4]."</td>";
-			   echo "<td><form action=\"\" method=\"post\" onsubmit=\"return submitdata()\"><input type=\"hidden\" name=\"deleteSubject\" value=\"".$v[5]."\"/><input type=\"image\" src=\"./images/trash.gif\" ></form></td>";
+			   echo "<td><form action=\"\" method=\"post\" onsubmit=\"return confirmsubmit()\"><input type=\"hidden\" name=\"deleteSubject\" value=\"".$v[5]."\"/><input type=\"image\" src=\"./images/trash.gif\" ></form></td>";
 			   echo "</tr>";
 			  }
 		   ?>

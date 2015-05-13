@@ -25,14 +25,14 @@
 	$faculty_code=$_SESSION["unames"];
 	$sql = "SELECT * FROM subject where faculty_id='".$faculty_id."' ";
 	$result = $conn->query($sql);
-	$no_of_subjects=0;
+	$no_of_subjects1=0;
 	while($row = $result->fetch_assoc())
 	{
-		$subject_code[$no_of_subjects]=$row["subject_code"];
-		$subject_id[$no_of_subjects]=$row["id"];
-		$subject_name[$no_of_subjects]=$row["subject_name"];
-		$subject_section[$no_of_subjects]=$row["section"];
-		$no_of_subjects++;
+		$subject_code[$no_of_subjects1]=$row["subject_code"];
+		$subject_id[$no_of_subjects1]=$row["id"];
+		$subject_name[$no_of_subjects1]=$row["subject_name"];
+		$subject_section[$no_of_subjects1]=$row["section"];
+		$no_of_subjects1++;
 	}	
 		
 	
@@ -177,7 +177,8 @@ $(".trigger").click(function(){
     
         <ul>
 		<?php
-			for($i=0;$i<$no_of_subjects;$i++)
+
+			for($i=0;$i<$no_of_subjects1;$i++)
 			{
 				echo "<li><a href='faculty_subject.php?subject_code=".$subject_code[$i]."&section_sel=".$subject_section[$i]."&subject_id=".$subject_id[$i]."' >".$subject_name[$i]." - ".$subject_section[$i]." -(".$subject_code[$i].") </a></li>";
 			}
