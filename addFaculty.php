@@ -18,16 +18,16 @@ session_start();
 		die("Connection failed: " . $conn->connect_error);
 	}
 	
-	//code to put all faculty and their details in a hash
-	$sql="SELECT  * from faculty WHERE `isAdmin`=0;";
-	$res=$conn->query($sql);
-	if($res->num_rows > 0)
-	{
-	   while($row=$res->fetch_assoc())
-	   {
-	      $faculty[$row["uname"]]=$row["name"];
-	   }
-	}
+	//Code to delete the faculty requested by user
+	if(isset($_POST['deleteFaculty'])) 
+	  { 
+	    if(!empty($_POST['deleteFaculty'])){
+	    //delete the subject,process it
+		$sql="DELETE FROM faculty WHERE id=".$_POST['deleteFaculty'].";";
+		if(!($conn->query($sql))) {echo "<h2>Error...Unable to delete Subject...</h2>";}
+		else echo "<script>alert('Faculty deleted successfully');</script>";
+		}
+	  }
 	
 	//Code to process addfaculty request
 	if(isset($_POST['addFaculty']))
@@ -39,6 +39,24 @@ session_start();
 		 }else { echo "<script>alert(\"Added Faculty to Database\");</script>";}
 	   }else {echo "<h2>Error...Enter all fields to add faculty</h2>";}
 	}
+	
+	//code to put all faculty and their details in a hash
+	$sql="SELECT  * from faculty WHERE `isAdmin`=0;";
+	$res=$conn->query($sql);
+	$index=0;
+	if($res->num_rows > 0)
+	{
+	   
+	   while($row=$res->fetch_assoc())
+	   {
+	      $name=$row["name"];
+		  $id=$row["id"];
+		  $uname=$row["uname"];
+	      $item=array($uname,$name,$id);
+	      $faculty[$index++]=array($item);
+	   }
+	}
+
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -60,6 +78,11 @@ $(".trigger").click(function(){
 	return false;
 });
 });
+
+function confirmsubmit()
+{
+return (confirm("Are You Sure You Want To Delete?"));
+}
 
 function submitdata() { 
     if(fac.name.value=="" || fac.username.value=="" || fac.password.value=="" ||fac.repeatpassword.value==""){
@@ -101,19 +124,23 @@ function submitdata() {
 		 <table id="rounded-corner">
 		 <thead>
     	  <tr>
-            <th>Username</th><th>Name</th>
+            <th>Username</th><th>Name</th><th>Delete</th>
           </tr>
 		  </thead>
 		  <tfoot>
     	  <tr>
-        	<td colspan="2">All the current faculty in Database</td>
+        	<td colspan="3">All the current faculty in Database</td>
           </tr>
           </tfoot>
 		 <tbody>
 		   <?php
-    	      foreach($faculty as $k=>$v)
-			  {
-			   echo "<tr class=\"even\"><td>".$k."</td><td>".$v."</td></tr>";
+		      for($i=0;$i<$index;$i++){
+    	       foreach($faculty[$i] as $k=>$v)
+			   {
+			   echo "<tr class=\"even\"><td>".$v[0]."</td><td>".$v[1]."</td>";
+			   echo "<td><form action=\"\" method=\"post\" onsubmit=\"return confirmsubmit()\"><input type=\"hidden\" name=\"deleteFaculty\" value=\"".$v[2]."\"/><input type=\"image\" src=\"./images/trash.gif\" ></form></td>";
+			   echo "</tr>"; 
+			   }
 			  }
 		   ?>
          </tbody>		

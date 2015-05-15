@@ -42,8 +42,22 @@ session_start();
 	   }else {echo "<h2>Error...Enter all fields to add Subject</h2>";}
 	}
 	
-	//Code to display all the subjects grouped by subject code
-	//code to put all faculty and their details in a hash
+	
+	
+	
+	//Code to delete the subject requested by user
+	if(isset($_POST['deleteSubject'])) 
+	  { 
+	    if(!empty($_POST['deleteSubject'])){
+	    //delete the subject,process it
+		$sql="DELETE FROM subject WHERE id=".$_POST['deleteSubject'].";"; // this query needs to be taken care of
+		if(!($conn->query($sql))) {echo "<h2>Error...Unable to delete Subject...</h2>";}
+		}
+	  }
+	  
+	  
+	  //Code to display all the subjects grouped by subject code
+	  //code to put all faculty and their details in a hash
 	$sql="SELECT  * from subject";
 	$res=$conn->query($sql);
 	if($res->num_rows > 0)
@@ -55,16 +69,6 @@ session_start();
 	      $subject[$i++]=$arr;
 	   }
 	}
-	
-	//Code to delete the subject requested by user
-	if(isset($_POST['deleteSubject'])) 
-	  { 
-	    if(!empty($_POST['deleteSubject'])){
-	    //delete the subject,process it
-		$sql="DELETE FROM subject WHERE id=".$_POST['deleteSubject'].";"; // this query needs to be taken care of
-		if(!($conn->query($sql))) {echo "<h2>Error...Unable to delete Subject...</h2>";}
-		}
-	  }
 ?>
 
 <html xmlns="http://www.w3.org/1999/xhtml">

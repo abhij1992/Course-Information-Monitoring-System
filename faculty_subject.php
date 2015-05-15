@@ -273,13 +273,10 @@ TO-do
     <div class="clear"></div>
     </div> <!--end of center_content-->
     
-<<<<<<< HEAD
-
-=======
     <div class="footer">
 CIMS
 </div>
->>>>>>> origin/master
+
 
 </div>
 

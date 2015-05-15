@@ -1,5 +1,0 @@
-109	57
-
-
-AJP	25	8
-Analysis and Design of Algorithms	84	49
