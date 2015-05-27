@@ -118,6 +118,15 @@ $(".trigger").click(function(){
 });
 });
 </script>
+<script type="text/javascript">
+        var specialKeys = new Array();
+        specialKeys.push(8); //Backspace
+        function IsNumeric(e) {
+            var keyCode = e.which ? e.which : e.keyCode
+            var ret = ((keyCode >= 48 && keyCode <= 57) || specialKeys.indexOf(keyCode) != -1);
+            return ret;
+        }
+    </script>
 </head>
 <body>
 <div id="panelwrap">
@@ -207,7 +216,7 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
 		echo '<td>'.$row["text"].'</td>';
 		if($row["is_heading"]==0){
 			echo '<td>'.$row["est_hrs"].'</td>';
-			echo '<td><input type=text name="'.$row["id"].'" value="'.$row["completed_hrs"].'" size=2 /></td>';
+			echo '<td><input type=text name="'.$row["id"].'" value="'.$row["completed_hrs"].'" size=2 onkeypress="return IsNumeric(event);" /></td>';
 		}
 		else
 			echo "<td></td><td></td>";
@@ -234,15 +243,7 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
 
 
     
-        <div class="toogle_wrap">
-            <div class="trigger"><a href="#">Toggle with text</a></div>
-
-            <div class="toggle_container">
-			<p>
-            To-Do
-			</p>
-            </div>
-        </div>
+       
       
      </div>
      </div><!-- end of right content-->
@@ -262,9 +263,9 @@ and s.section='".$subjectsec1."' ORDER BY c.chap_no,c.unit_no";
         
    
    
-    <h2>Text Section</h2> 
+    <h2>Information</h2> 
     <div class="sidebar_section_text">
-TO-do
+		This Page allows you to view your current progress in this subject and update what portions were completed.
     </div>         
     
     </div>             

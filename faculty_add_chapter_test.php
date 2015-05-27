@@ -260,9 +260,9 @@ $(document).ready(function(){
         
    
    
-    <h2>Text Section</h2> 
+    <h2>Information</h2> 
     <div class="sidebar_section_text">
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+		Press the "+" button to add more units in this chapter, in case you want to remove extra units select them in the check box and select the remove button.
     </div>         
     
     </div>             

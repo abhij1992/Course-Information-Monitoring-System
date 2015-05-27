@@ -158,15 +158,7 @@ $(".trigger").click(function(){
     
 
     
-        <div class="toogle_wrap">
-            <div class="trigger"><a href="#">Toggle with text</a></div>
-
-            <div class="toggle_container">
-			<p>
-          TO-Do
-			</p>
-            </div>
-        </div>
+       
       
      </div>
      </div><!-- end of right content-->
@@ -187,9 +179,9 @@ $(".trigger").click(function(){
         
    
    
-    <h2>Text Section</h2> 
+    <h2>Information</h2> 
     <div class="sidebar_section_text">
-TO-DO
+This page clears current data in the course and allows to you add new set of data by selecting the subject and number of chapters to be added.
     </div>         
     
     </div>             

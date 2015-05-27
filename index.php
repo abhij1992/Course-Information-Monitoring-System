@@ -106,7 +106,8 @@ $conn->close();
   </h3>
   <br><br>
   <p >
-  The Course Management System(CMS) will provide the head of Department, teachers and students an online application that will allow them to track the workflow of the syllabus. It will provide teachers and students with information on how much of the course has been completed and how much is left. It will be driven by three interfaces; one for the head of the department, who will be able to keep of track of every subject and teacher and how much progression has been made. A second interface for teachers to update and keep track of how much of the syllabus is complete, and a third interface for students to check how much is completed based on which semester they are in.
+  The Course Management System(CMS) will provides the head of Department, teachers and students an online application that allows them to track the workflow of the syllabus. It provides teachers and students with information on how much of the course is completed and how much is left. It is driven by three interfaces; one for the head of the department, who is able to keep of track of every subject and teacher and how much progression has been made. 
+  A second interface for teachers to update and keep track of how much of the syllabus is complete, and a third interface for students to check how much is completed based on which semester they are in.
   </p>
   <br><h3>Select Semester </h3>
   <form name="Student" action="Student.php">
@@ -123,6 +124,14 @@ $conn->close();
   </select>
   <input type="submit" style="width: 150px" value="See Progress" name="SemForm"/>
   </form>
+  <br><br><br><br>
+  <h3>A Project By :
+  </h3>
+  <br><b>Abhijith B.S</b>
+  <br>1PI13MCA01
+  <br>  <br><b>Joshua Fernandes</b>
+  <br>1PI13MCA31
+  
 </div>
 </body>
 

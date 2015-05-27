@@ -168,7 +168,10 @@ return (confirm("Are You Sure You Want To Delete?"));
 			
 			<div class="form_row">
 			<label>Section:</label>
-            <input type="text" class="form_input" name="section" />
+			<select name="section" class="form_input">
+			<option value="A">A</option>
+			<option value="B">B</option>
+			</select>
             </div>	
 			
 			<div class="form_row">
@@ -183,7 +186,15 @@ return (confirm("Are You Sure You Want To Delete?"));
 			
 			<div class="form_row">
 			<label>Semester:</label>
-            <input type="text" class="form_input" name="semester" />
+            <select name="semester" class="form_input">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			</select>
+
             </div>	
 			
 			<div class="form_row">

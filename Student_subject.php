@@ -191,11 +191,10 @@ $(".trigger").click(function(){
         
    
    
-    <h2>Text Section</h2> 
+    <h2>Information</h2> 
     <div class="sidebar_section_text">
 
-	Faculty Report page </br>
-
+	View subject wise report of how many classes were taken and how many are estimated.</br>
     </div>         
     
     </div>             

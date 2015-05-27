@@ -97,9 +97,9 @@ function submitdata() {
 	  <li><a href="addSubject.php">Add Subject</a></li>
 	 </ul>
     
-    <h2>Text Section</h2> 
+    <h2>Information</h2> 
     <div class="sidebar_section_text">
-    TO-DO
+    You are presented with information about semester wise course completion in all subjects aggregated.
     </div>         
     
     </div>             

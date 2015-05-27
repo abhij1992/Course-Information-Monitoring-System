@@ -110,10 +110,10 @@ and s.section = '".$sec."'";
         
    
    
-    <h2>Text Section</h2> 
+    <h2>Information</h2> 
     <div class="sidebar_section_text">
 
-	Faculty Report page </br>
+	This is your overall progress of all the classes conducted and how many classes are left. </br>
 
     </div>         
     
